@@ -1,0 +1,554 @@
+\documentclass[12pt,letterpape]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       Paquetes Necesarios
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{algorithm, algpseudocode}
+
+\title{Optimal Synthesis of Four-Bar Mechanisms using Physics-inspired Metaheuristic}
+\author{Jesús-Adolfo Mejía-de-Dios}
+
+\begin{document}
+\maketitle
+
+\section{Introduction} % (fold)
+\label{sec:introduction}
+
+Metaheuristics have been successfully used for solving real-word problems [[[cite]]].
+This kind of algorithms almost always outperform Mathematical Programming when problems
+are highly non-linear and/or non-differentiable functions, large number of variables, 
+among others[[cite]]. Most recently and important Metaheuristics can be divided in three
+groups: Evolutionary Programming, Evolutionary Algorithms (EAs) and Physics-inspired Algorithms [[cite]].\\
+
+Physical metaphors ideas are used to construct metaheuristics optimization problems
+for example: Gravitational  Search Algorithm (GSA) \cite{rashedi2009gsa}, 
+Gravitational Local Search (GLSA) \cite{glsa}, Big-Bang Big-Crunch (BBBC) \cite{erol2006new}, 
+Charged System Search (CSS) \cite{kaveh2010novel}, Central Force Optimization 
+(CFO) \cite{cfo2007}, Black Hole (BH) \cite{hatamlou2013black} algorithm, and Ray 
+Optimization (RO) algorithm \cite{kaveh2012new}, among others. Some recent surveys 
+on this topic can be found in \cite{fisicaSurvey,biswas2013physics,xie2011convergence,DBLP:journals/corr/FisterYFBF13}. 
+% section introduction (end)
+
+\section{Synthesis of Four-Bar Mechanisms} % (fold)
+\label{sec:synthesis_of_four_bar_mechanisms}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/four-bars.pdf}
+	\caption{Four-Bar mechanism diagram.}
+	\label{fig:fourbar}
+\end{figure}
+
+Four-bar mechanisms are formed by a references bar, input bar (crank), a coupler and a out bar (rocker). The simplicity of four-bar mechanisms provide many facilities for a large number of industrial applications [[cite]]. Actually, the kinematics of this kind of planar mechanisms have been extensively worked. A good idea it is transform from planar to coordinates coordinates, i.e.
+
+\begin{equation}
+	\vec{r}_k = r_k ( \cos(\theta_k) + i \sin( \theta_k ) ) \ \text{ for } \ k = 1,2,3,4.
+	\label{eqn:rpolar}
+\end{equation}
+
+\subsection{Kinematics of The Mechanism} % (fold)
+\label{sub:kinematics_of_the_mechanism}
+
+To analyze the mechanism position, the closed loop equation can be established as follows:
+
+\begin{equation}
+	\vec{r}_1 + \vec{r}_4 = \vec{r}_2 + \vec{r}_3.
+	\label{eqn:sumsr}
+\end{equation}
+
+From Equations (\ref{eqn:rpolar}) and  (\ref{eqn:sumsr}) we obtain the following system:
+\begin{equation}
+	\begin{cases}	
+	 	r_1\cos\theta_1 + r_4\cos\theta_4 = r_2\cos\theta_2 + r_3\cos\theta_3 \\
+	 	r_1\sin\theta_1 + r_4\sin\theta_4 = r_2\sin\theta_2 + r_3\sin\theta_3 
+	\end{cases}
+	\text{ implies } 
+	\label{eqn:systemr}
+\end{equation}
+% 
+Expressing the equation system (\ref{eqn:systemr}) in terms of $\vec{r}_4$
+% 
+\begin{equation}
+	\begin{cases}	
+	 	r_4\cos\theta_4 = r_2\cos\theta_2 + r_3\cos\theta_3 - r_1\cos\theta_1\\
+	 	r_4\sin\theta_4 = r_2\sin\theta_2 + r_3\sin\theta_3 - r_1\sin\theta_1
+	\end{cases}
+	\label{eqn:systemr4}
+\end{equation}
+% 
+% Squaring the system (\ref{eqn:systemr4}) and adding its terms we obtain:
+% 
+\begin{equation}
+	a \cos \theta_3 + b\sin\theta_3 + c = 0,
+\end{equation}
+% 
+where
+% 
+\begin{align*}
+	a &= 2r_3 ( r_2\cos\theta_2 - r_1\cos\theta_1 ),\\
+	b &= 2r_3 ( r_2\sin\theta_2 - r_1\sin\theta_1 ),\\
+	c &= r_1^2 + r_2^2 + r_3^2 - r_4^2 - 2r_1 r_2 \cos( \theta_1 - \theta_2 ).
+\end{align*}
+% 
+Then, the angle $\theta_3$ can be calculated as a function with parameters $a, b, c$ and $\theta_3$, and $\cos\theta_3$ in terms of $\tan (\theta_3 / 2)$:
+%
+\begin{align}
+ 	\sin \theta_3 &= \dfrac{2\tan(\theta_3 / 2)}{1 + \tan^2(\theta_3 / 2)}\\
+ 	\sin \theta_3 &= \dfrac{ - \tan^2(\theta_3 / 2)}{1 + \tan^2(\theta_3 / 2)}
+\end{align}
+%
+A second-order lineal equation is obtained by substitution on
+\begin{equation}
+	[c - a]\tan^2(\theta_3 / 2) + 2b\tan(\theta_3 / 2) + a + c = 0
+	\label{eqn:subs}
+\end{equation}
+% 
+From the solution of (\ref{eqn:subs}), the angular position $\theta_3$ is given by:
+\begin{equation}
+	\theta_3 = 2\arctan \left[ \dfrac{-B\pm \sqrt{b^2 - 4ac} }{c-a} \right].
+	\label{eqn:theta3}
+\end{equation}
+% 
+Analogously, we can get $\theta_4$.
+
+% section kinematics_of_the_coupler (end)
+\subsection{Kinematics of the Coupler} % (fold)
+\label{sec:kinematics_of_the_coupler}
+Since the point of interest in the coupler is $C(C_{xr}, C_{yr})$, to determine its position in the reference system $OX_r Y_r$ it has to be established that
+\begin{align}
+	C_{xr} &= r_2 \cos\theta_2 + r_{cx}\cos\theta_3 - r_{cy}\sin\theta_3,\\
+	C_{yr} &= r_2 \sin\theta_2 + r_{cx}\sin\theta_3 - r_{cy}\cos\theta_3,
+\end{align}
+In the global coordinate system, this point is expressed as:
+\begin{equation}
+	\begin{bmatrix}
+		C_x \\ C_y
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		\cos\theta_0 & -\sin\theta_0\\
+		\sin\theta_0 & -\cos\theta_0\\
+	\end{bmatrix}
+	\begin{bmatrix}
+		C_{xr} \\ C_{yr}
+	\end{bmatrix}
+	+\begin{bmatrix}
+		x_0 \\ y_0
+	\end{bmatrix}.
+	\label{eqn:cxr}
+\end{equation}
+Equations (\ref{eqn:theta3}) and (\ref{eqn:cxr}) and the expressions from the
+kinematics of the mechanism are sufficient to calculate the position of
+$C$ along the trajectory.
+
+\subsection{Design Objective Function} % (fold)
+
+In order to find the best mechanism such that the trajectory corresponds to $n$
+precision points, we quantify the error using quadratic error. Let 
+$M = \{ C^i_d \in \mathbb{R}^2 \ | \ i =1,2\ldots,n \}$ be a set of precision points.
+
+Then, given the parameters of a mechanism, each point of the coupler can be
+expressed as a function of the input bar position
+
+$$
+ C^i = [ C_x(\theta_2^i),\ C_y(\theta_2^i)]^T
+$$
+
+Now, it is desired to minimize the error between each precision point $C^i_d$ and
+the calculated point $C^i$, respectively. Thus, the error is calculated using the
+expression:
+
+$$
+	\text{error} = \sum_{i=1}^n \left[ (C_{xd} - C_x^i) + C_{yd} - C_y^i) \right]. 
+$$
+
+% 
+\subsection{Design Constraints} % (fold)
+\label{sub:design_constraints}
+It is important add some constraints to grantee the movement criteria and restrict
+the size and shape of me mechanism. Here is where the Grashof's Law takes place:\\
+
+Grashof's Law establishes that for a planar four-bar linkage, the sum of the shortest
+and the largest bars cannot be larger than the sum of the remaining bars, if a
+continual relative rotation between two elements is desired[[cite]]. \\
+
+Applying the Grashof's Law to our problem, we obtain
+$$
+r_1 + r_2 \leq r_3 + r_4.
+$$
+
+We need a Crank-rocker mechanism. Thus, for ensure the solution method, the following constraints were established:
+$$
+r_2 < r_3, \ r_3 < r_4, \ \text{ and } \ r_4 < r_1.
+$$
+
+On the other hand, the angle sequence $\theta_2^1,\ \ldots,\ \theta_2^n,\ $ must satisfy
+$ \theta_2^1 < \theta_2^2 <\ \cdots < \ \theta_2^n,\ $ because we are assuming successive precision points.
+
+\section{Experiments Design} % (fold)
+\label{sec:experiments_design}
+
+Experiments details are detailed here. The vector of design variables is
+
+$$
+	\vec{p} = ( r_1,\ r_2,\ r_3,\ r_4,\ r_{cx},\ r_{cy},\ x_0,\ y_0,\ \theta_0,\ \theta_2^1,\ \theta_2^2,\ \ldots,\ \theta_2^n  ) \in S \subset \mathbb{R}^{9+n},
+$$
+% 
+where the search space is $S = [0,\ 60]^4 \times [-60,\ 60]^4 \times [0,\ 2\pi ]^{n+1} $, i.e. each boundary is:
+% 
+% 
+\begin{align*}
+       r_1,\ r_2,\ r_3,\ r_4 & \in [0,\ 60]\\
+ r_{cx},\ r_{cy},\ x_0,\ y_0 & \in [-60, 60]\\	
+\theta_0,\ \theta_2^1,\ \ldots,\ \theta_2^n &\in [0, 2\pi].
+\end{align*}
+% 
+Here, $r_1,\ \ldots,\ r_4$ correspond to the lengths of the bars. $(r_{cx},\ r_{cy})$
+is the position of the coupler. $O_2(x_0,\ y_0)$ is the coordinate position,
+$\theta_0$ is the orientation angle of the system with respect to the horizontal. Finally, $\theta_2^1,\ \ldots,\ \theta_2^n$ are angle values of the input bar $r_2$.\\
+% 
+
+Based on mentioned above, construct a four-bar crank-rocker mechanism is equivalent to solve the following constrained optimization problem:
+% 
+\begin{align}
+	\min f(\vec{p}) = \sum_{i=1}^n \left[ (C_{xd} - C_x^i) + C_{yd} - C_y^i) \right].
+\end{align}
+% 
+subject to: 
+% 
+\begin{align*}
+ g_1( \vec{p})  & = r_1 + r_2 - r_3 - r_4 \\
+ g_i(\vec{p})   & = r_i -  r_{i+1} \leq 0, \text{ for } i = 2, 3 \\
+ g_4(\vec{p})   & = r_4 - r_1 \\
+ g_{4 + i } (\vec{p})   & = \theta_{2}^i - \theta_{2}^{i+1} \leq 0,  \text{ for } i = 1, \ldots, n-1. 
+\end{align*}
+%
+
+\section{Evolutionary Centers Algorithm} % (fold)
+\label{sec:evolutionary_centers_algorithm}
+
+Our approach is based on the center of mass definition, which is adopted for 
+creating new directions and generate a bias in the population, and such bias is 
+based on the objective function values of the solutions in the population. The 
+selection criteria are modified to consider feasibility of solutions. Therefore, 
+the aim of the algorithm will be generating solutions within the feasible region 
+of the search space but with competitive objective function values.
+
+%
+%
+\subsection{Motivation} % (fold)
+The motivation of ECA is two-fold: (1) the meaning of the center of mass, and (2) 
+the way EAs, swarm intelligence and other physics-based algorithms generate new 
+solutions in the search space. 
+% 
+\begin{enumerate}
+	\item The center of mass is a geometric property of any body. From a particular 
+		  point of view, it is the average location of the weight of an object. 
+		  In fact, it is possible to describe the motion of an object through 
+		  space, based on the movement of its center of mass from one particular 
+		  place to another. In such way, the population can be moved to places 
+		  where the center of mass is maximized. 
+	% 
+	\item The way population-based approaches, like most of those mentioned in 
+		  Section \ref{sec:related_work}, generate new solutions is based on 
+		  Equation \ref{eqn:xxv}, where $\vec{x}_{i + 1}$ is the new solution 
+		  generated by the current solution $\vec{x}_{i}$ and some update 
+		  information $\vec{v}_{i + 1}$. 
+\end{enumerate}
+\begin{equation}
+	\vec{x}_{i + 1} = \vec{x}_{i} + \vec{v}_{i + 1}
+	\label{eqn:xxv}
+\end{equation}
+% 
+
+Formally, the center of mass is the unique point $\vec{c}$ at the center of a 
+distribution of mass $U = \{\vec{u}_1,\; \vec{u}_2 , \ldots , \vec{u}_K \}$ in a 
+space with the the property that the weighted sum of position vectors relative 
+to this point is zero \cite{kleppner73,serway}, as shown in Equation \ref{eq:masscenter}:
+%
+%
+\begin{equation}
+	\sum_{i = 1}^K m(\vec{u}_i) (\vec{u}_i - \vec{c}) = 0, \text{ implies } 
+	%%%%%%%%%%%%%%%%%%%%%
+	\vec{c} = \dfrac{1}{M} \sum_{i = 1}^K  m(\vec{u}_i)  \vec{u}_i,
+	\label{eq:masscenter}
+\end{equation}
+%
+%
+where $m(\vec{u}_i)$ is the mass of $\vec{u}_i$ and  $M$ is the sum of the 
+masses of vectors in $U$, and $m$ is a non-negative function.\\
+
+
+For ECA, the objective function value of a given solution represents
+its mass, then each solution in the population has a mass value associated,  i.e., 
+we set $f(\vec{x}) = m(\vec{x})$ for all $\mathbb{R}^D$. Without loss of generality, 
+it is assumed the maximization of a non-negative function $f$.
+
+
+\subsection{Variation Operator} % (fold)
+\label{sub:algorithm_description}
+
+The variation operator used in ECA, inspired in the center of mass, works as follows: 
+for each solution $\vec{x}_i $ in the population $P = \{ \vec{x}_1, \vec{x}_2, \ldots, \vec{x}_{N} \} $ of $N$ 
+solutions, a subset $U \subset P $ with $K$ solutions is randomly chosen. After 
+that, from $U$ the center of mass $\vec{c}$ is computed; then based on  a solution 
+chosen at random $\vec{u}_r \in U$, a stepsize $\eta$, and the already generated 
+center of mass $\vec{c}$, a search direction to locate a new solution $ \vec{y}_i$ 
+is calculated. Such process is summarized in Equation \ref{eqn:vcu}:
+
+\begin{equation}
+	\vec{y}_i = \vec{x}_i + \eta ( \vec{c}_i - \vec{u}_{r} ),
+	\label{eqn:vcu}
+\end{equation}
+%
+where 
+%
+\begin{equation}
+	\vec{c}_i = \dfrac{1} {W} \sum_{u \in U} f(\vec{u}) \cdot \vec{u} , 
+			\hspace{0.5cm} 
+			W = \sum_{ \vec{u} \in U} f(\vec{u}).
+	\label{eqn:center}
+\end{equation}
+
+It is worth mentioning that the variation operator in Equation \ref{eqn:vcu} 
+provides a bias to the most promising solutions, but also considers the position 
+of the other solutions in $U$, as depicted in  Figure \ref{fig:masses}. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=7cm]{img/masses.pdf}
+	\caption{$c_m$ is center of mass, $c_g$ is geometric center of gray points. %
+	Gray point radius is its mass. Note the bias given by the weighted sum.}
+	\label{fig:masses}       % Give a unique label
+\end{figure}
+%
+%
+The bias is precisely given by Equation (\ref{eqn:center}) because for a solution 
+with the highest mass, the position of the center of mass is near  
+its position. It is then important to remark that this bias is constraint-independent, i.e., 
+no feasibility information is used in the variation operator. 
+%
+
+\subsection{Some Considerations} % (fold)
+\label{sub:some_considerations}
+
+
+For each solution $\vec{x}_i $ in the population $P = \{ \vec{x}_1, \vec{x}_2, \ldots, \vec{x}_{N} \} $ of $N$ 
+solutions, we select $U \subset P $ with $K$ \textbf{different} solutions. Next, 
+from $U$ we obtain the center of mass $\vec{c}$. After that, \textbf{we choose the solution} $\vec{u}_{\text{worst}} \in U$,  
+and the already generated center of mass $\vec{c}$, we generate a direction 
+to locate a new solution $ \vec{h}_i$. Using a binomial crossover, generate a new solution $\vec{h}_{i}$ with coordinates
+
+%
+\begin{equation}
+	\vec{h}_{i,j} = 
+	\begin{cases}
+		y_{i,j} & \text{ if rand()} < P_{\text{bin}}\\
+		c_{i,j} & \text{ otherwise}
+	\end{cases}
+	\label{eqn:newSol}
+\end{equation}
+% 
+for $j = 1,2,\ldots,D$. Where 
+%
+\begin{equation}
+	\vec{y}_i = 
+	\begin{cases}
+		\vec{x}_i + \eta _{i} ( \vec{c}_i - \vec{u}_{ \text{worst} } ) 
+		       & \text{ if } P_{\text{evals}} < P_{\text{exploit}} \\
+		% 
+		\vec{x}_i + \eta _{i} ( x_{\text{best}} - \vec{c}_i)
+		       & \text{ otherwise}
+	\end{cases}
+	\label{eqn:vcu}
+\end{equation}
+%
+here, $ P_{\text{evals}}$ is the evaluation ratio (current number of func. evaluation / max. number of func. evaluations) and  $P_{\text{exploit}}$ is the last percentage of evaluations used for an exploitation process.
+%
+
+
+\subsection{Why Binomial Crossover?} % (fold)
+\label{sub:why_binomial_crossover_}
+
+Suppose you are using ECA without binomial crossover for optimizing a function $f:\mathbb{R}^D \to \mathbb{R}$ and you initialize the entire population in a plain $V \subset \mathbb{R}^D $ such that $0 \in V$. This plain $V$ is a vector subspace of $\mathbb{R}^D$, i.e. any linear combination of vectors in $V$ is in V.\\
+
+Now, let $T:V^3 \to V$ be a linear transformation defined as $ T(\vec{x},\ \vec{c},\ \vec{u}) = \vec{x} + \eta ( \vec{c} - \vec{u} )$ where $c,x,u \in V$. Assume $x_\text{best} = \arg \max f(x)$ such that $x_\text{best} $ is not in $V$. Here, ECA can not reach $x_\text{best}$ because ECA only generate solution in $V$. Although, ECA without crossover can not generate solutions outside $V$.
+
+% section eca (end)
+
+\subsection{Constraints Handling} % (fold)
+\label{sub:constraints_handling}
+
+As we can see, ECA is designed to solve single-objective real-parametric optimization. Then, we need propose a method for constraints handling. We suggest use a penalty
+method, that is:
+% 
+\begin{equation}
+	\Phi( \vec{p} ) = f( \vec{p} ) + \alpha \sum_{i=1}^{n+9} G(g_i( \vec{p} ) ),
+% 
+	\label{eqn:phiObj}
+% 
+\end{equation}
+where 
+$$
+G(x) = 
+\begin{cases}
+	\displaystyle
+	x & \text{ if } x > 0 \\
+	0 & \text{ otherwise. }
+\end{cases}
+$$
+% 
+Algorithm \ref{algoritmoEca} is the general pseudocode of ECA. We use our approach
+to solve optimal synthesis of four-bar mechanism.
+
+\begin{algorithm}[!ht]
+	\caption{ECA pseudocode}
+	\label{algoritmoEca}
+	\begin{algorithmic}[1]
+		\Procedure{ECA}{$K = 7, \; \eta_{\max} = 4,\ P_{\text{exploit}} = 0.95,\ P_{\text{bin}} = 0.7$}
+		\State $N \gets K * D$
+		\State Generate and evaluate start population $P$ with $N$ elements
+		\While{the end criterion is not achieved}
+			\For {each $\vec{x}$ in $P$}
+				\State Generate a subset $U \subset P$ such that  card$(U) = K$
+				\State Calculate $\vec{c}$ using $U$ with (\ref{eqn:center})
+				\State $\eta \gets \text{rand}(0,\; \eta_{\max}) $ 
+				\State Calculate $\vec{h}$ using Eq. (\ref{eqn:newSol})
+				
+				\If{$ \Phi (\vec{x}) < \Phi (\vec{h})  $}
+					\State Replace worst element in $P$ with $\vec{h}$
+				\EndIf
+			\EndFor
+		\EndWhile
+		\State Report best solution in $P$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Algorithm Parameters} % (fold)
+\label{sub:algorithm_parameters}
+
+Objective function is $\Phi$ detailed before. The maximum number of function evaluation
+(mas\_fes) was set to 20000$D$. $K = 7, \; \eta_{\max} = 4,\ P_{\text{exploit}} = 0.95,\ P_{\text{bin}} = 0.7$ and $\alpha = 1000$ in Equation \ref{eqn:phiObj}.
+
+\subsection{Study Cases} % (fold)
+\label{sub:study_cases}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/study-cases.pdf}
+	\caption{Study Cases}
+	\label{fig:studycases}
+\end{figure}
+
+M01. It is the design of a four-bar mechanism that follows a linear vertical path
+defined by a sequence of six precision points, without a previously established
+synchronization. The set of precision points is defined as
+% 
+$$
+	M_{1} = \{ (20, 20),\ (20, 25),\ (20, 30),\ (20, 35),\ (20, 40),\ (20, 45) \}
+$$
+The vector of variables in this case is $ \vec{p} \in \mathbb{R}^{15} $, because
+$|M| = 6$. 
+%
+$$
+	M_{2} = \{(3, 3),\ (2.759,\ 3.363),\ (2.372,\ 3.663),\ (1.890,\ 3.862),\ (1.355, 3.943) \}
+$$
+
+The vector of design variables is $ \vec{p} \in \mathbb{R}^{10} $
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{ccc}
+			\hline
+			  &      $M_{3}$      &       $M_{3}$       \\
+			\hline
+			1 & (1.768, 2.3311) & (1.9592, 2.44973) \\
+			2 & (1.947, 2.6271) & (2.168, 2.675)    \\
+			3 & (1.595, 2.7951) & (1.821, 2.804)    \\
+			4 & (1.019, 2.7241) & (1.244, 2.720)    \\
+			5 & (0.479, 2.4281) & (0.705, 2.437)    \\
+			6 & (0.126, 2.0521) & (0.346, 2.104)    \\
+			7 & (-0.001, 1.720) & (0.195, 1.833)    \\
+			8 & (0.103, 1.514)  & (0.356, 1.680)    \\
+			9 & (0.442, 1.549)  & (0.558, 1.742)    \\
+		   10 & (1.055, 1.905)  & (1.186, 2.088)    \\
+			\hline
+	\end{tabular}
+\end{table}
+
+% subsection study_cases (end)
+
+\section{Results} % (fold)
+\label{sec:results}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{clrccccc}
+	\hline
+	 & {\bf Alg.} & {\bf Evals}.  & {\bf Best} & {\bf Median} & {\bf Mean} & {\bf Std.} \\ \hline
+	 % 
+	% --------------------------------------------------------------------------
+	\multirow{2}{*}{M01}
+	& ECA & 300000  & 0.000000E+00  & 3.455233E--04 & 4.449034E--04 & 7.345703E--04 &
+	\multirow{2}{*}{$ \approx $}\\  
+	& ED  & 750000  & 7.573065E--29 & 1.328421E--05 & 2.601458E--03 & 7.588249E--03 &  \\ \hline
+	% 
+	% --------------------------------------------------------------------------
+	\multirow{2}{*}{M02}
+	& ECA &  60000  & 2.628079E--03 & 2.628079E--03 & 2.628079E--03 & 4.408496E--19 & 
+	\multirow{2}{*}{$ \approx $}\\ 
+	& ED  & 100000  & 2.628079E--03 & 2.628079E--03 & 2.628079E--03 & 6.736261E--18 &  \\ \hline
+	% 
+	% --------------------------------------------------------------------------
+	\multirow{2}{*}{M03}
+	& ECA & 380000  & 2.749687E--01 & 2.783940E--01 & 3.755563E--01 & 2.502182E--01 & 
+	\multirow{2}{*}{$ \approx $}\\ 
+	& ED  & 500000  & 2.749687E--01 & 2.773593E--01 & 7.610914E--01 & 1.116940E+00  &  \\ \hline
+	% --------------------------------------------------------------------------
+\end{tabular}
+\caption{Here, ``$\approx$'' means no difference was observed, based on a Wilcoxon signed rank sum test with a level of significance $\alpha = 0.05$.}
+\end{table}
+
+% \begin{table}[!ht]
+% 	\centering
+% 	\begin{tabular}{|c|c|}
+% 		\hline
+% 		    & p-value \\ \hline
+% 		M01 & 0.85  \\ \hline
+% 		M02 & 1 \\ \hline
+% 		M03 & 0.28\\ \hline
+		
+% 	\end{tabular}
+% \end{table}
+
+\section{Control} % (fold)
+\label{sec:control}
+
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{ccccccc}
+		\hline
+		& {\bf Evals.} & {\bf Best} & {\bf Median} & {\bf Mean} & {\bf Worst} & {\bf Std.} \\ \hline
+		ECA & 10000 & 2.055877E--01 & 2.340816E--01 & 2.292241E--01 & 2.345938E--01 & 9.315045E--03 \\ \hline
+		CHED & 20000 & 2.120037E--01 & 2.232873E--01 & 2.206308E--01 & 2.340816E--01 & 8.093537E--03 \\ \hline
+	\end{tabular}
+\end{table}
+
+% section control (end)
+
+
+% section results (end)
+
+% references
+\clearpage
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
