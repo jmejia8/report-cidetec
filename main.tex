@@ -10,7 +10,7 @@
 \usepackage{multirow}
 \usepackage{algorithm, algpseudocode}
 
-\title{Optimal Synthesis of Four-Bar Mechanisms using Physics-inspired Metaheuristic}
+\title{Solving Engineering Problems using Physics-inspired Metaheuristic}
 \author{Jesús-Adolfo Mejía-de-Dios}
 
 \begin{document}
@@ -34,201 +34,7 @@ Optimization (RO) algorithm \cite{kaveh2012new}, among others. Some recent surve
 on this topic can be found in \cite{fisicaSurvey,biswas2013physics,xie2011convergence,DBLP:journals/corr/FisterYFBF13}. 
 % section introduction (end)
 
-\section{Synthesis of Four-Bar Mechanisms} % (fold)
-\label{sec:synthesis_of_four_bar_mechanisms}
-
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=0.5\linewidth]{img/four-bars.pdf}
-	\caption{Four-Bar mechanism diagram.}
-	\label{fig:fourbar}
-\end{figure}
-
-Four-bar mechanisms are formed by a references bar, input bar (crank), a coupler and a out bar (rocker). The simplicity of four-bar mechanisms provide many facilities for a large number of industrial applications [[cite]]. Actually, the kinematics of this kind of planar mechanisms have been extensively worked. A good idea it is transform from planar to coordinates coordinates, i.e.
-
-\begin{equation}
-	\vec{r}_k = r_k ( \cos(\theta_k) + i \sin( \theta_k ) ) \ \text{ for } \ k = 1,2,3,4.
-	\label{eqn:rpolar}
-\end{equation}
-
-\subsection{Kinematics of The Mechanism} % (fold)
-\label{sub:kinematics_of_the_mechanism}
-
-To analyze the mechanism position, the closed loop equation can be established as follows:
-
-\begin{equation}
-	\vec{r}_1 + \vec{r}_4 = \vec{r}_2 + \vec{r}_3.
-	\label{eqn:sumsr}
-\end{equation}
-
-From Equations (\ref{eqn:rpolar}) and  (\ref{eqn:sumsr}) we obtain the following system:
-\begin{equation}
-	\begin{cases}	
-	 	r_1\cos\theta_1 + r_4\cos\theta_4 = r_2\cos\theta_2 + r_3\cos\theta_3 \\
-	 	r_1\sin\theta_1 + r_4\sin\theta_4 = r_2\sin\theta_2 + r_3\sin\theta_3 
-	\end{cases}
-	\text{ implies } 
-	\label{eqn:systemr}
-\end{equation}
 % 
-Expressing the equation system (\ref{eqn:systemr}) in terms of $\vec{r}_4$
-% 
-\begin{equation}
-	\begin{cases}	
-	 	r_4\cos\theta_4 = r_2\cos\theta_2 + r_3\cos\theta_3 - r_1\cos\theta_1\\
-	 	r_4\sin\theta_4 = r_2\sin\theta_2 + r_3\sin\theta_3 - r_1\sin\theta_1
-	\end{cases}
-	\label{eqn:systemr4}
-\end{equation}
-% 
-% Squaring the system (\ref{eqn:systemr4}) and adding its terms we obtain:
-% 
-\begin{equation}
-	a \cos \theta_3 + b\sin\theta_3 + c = 0,
-\end{equation}
-% 
-where
-% 
-\begin{align*}
-	a &= 2r_3 ( r_2\cos\theta_2 - r_1\cos\theta_1 ),\\
-	b &= 2r_3 ( r_2\sin\theta_2 - r_1\sin\theta_1 ),\\
-	c &= r_1^2 + r_2^2 + r_3^2 - r_4^2 - 2r_1 r_2 \cos( \theta_1 - \theta_2 ).
-\end{align*}
-% 
-Then, the angle $\theta_3$ can be calculated as a function with parameters $a, b, c$ and $\theta_3$, and $\cos\theta_3$ in terms of $\tan (\theta_3 / 2)$:
-%
-\begin{align}
- 	\sin \theta_3 &= \dfrac{2\tan(\theta_3 / 2)}{1 + \tan^2(\theta_3 / 2)}\\
- 	\sin \theta_3 &= \dfrac{ - \tan^2(\theta_3 / 2)}{1 + \tan^2(\theta_3 / 2)}
-\end{align}
-%
-A second-order lineal equation is obtained by substitution on
-\begin{equation}
-	[c - a]\tan^2(\theta_3 / 2) + 2b\tan(\theta_3 / 2) + a + c = 0
-	\label{eqn:subs}
-\end{equation}
-% 
-From the solution of (\ref{eqn:subs}), the angular position $\theta_3$ is given by:
-\begin{equation}
-	\theta_3 = 2\arctan \left[ \dfrac{-B\pm \sqrt{b^2 - 4ac} }{c-a} \right].
-	\label{eqn:theta3}
-\end{equation}
-% 
-Analogously, we can get $\theta_4$.
-
-% section kinematics_of_the_coupler (end)
-\subsection{Kinematics of the Coupler} % (fold)
-\label{sec:kinematics_of_the_coupler}
-Since the point of interest in the coupler is $C(C_{xr}, C_{yr})$, to determine its position in the reference system $OX_r Y_r$ it has to be established that
-\begin{align}
-	C_{xr} &= r_2 \cos\theta_2 + r_{cx}\cos\theta_3 - r_{cy}\sin\theta_3,\\
-	C_{yr} &= r_2 \sin\theta_2 + r_{cx}\sin\theta_3 - r_{cy}\cos\theta_3,
-\end{align}
-In the global coordinate system, this point is expressed as:
-\begin{equation}
-	\begin{bmatrix}
-		C_x \\ C_y
-	\end{bmatrix}
-	=
-	\begin{bmatrix}
-		\cos\theta_0 & -\sin\theta_0\\
-		\sin\theta_0 & -\cos\theta_0\\
-	\end{bmatrix}
-	\begin{bmatrix}
-		C_{xr} \\ C_{yr}
-	\end{bmatrix}
-	+\begin{bmatrix}
-		x_0 \\ y_0
-	\end{bmatrix}.
-	\label{eqn:cxr}
-\end{equation}
-Equations (\ref{eqn:theta3}) and (\ref{eqn:cxr}) and the expressions from the
-kinematics of the mechanism are sufficient to calculate the position of
-$C$ along the trajectory.
-
-\subsection{Design Objective Function} % (fold)
-
-In order to find the best mechanism such that the trajectory corresponds to $n$
-precision points, we quantify the error using quadratic error. Let 
-$M = \{ C^i_d \in \mathbb{R}^2 \ | \ i =1,2\ldots,n \}$ be a set of precision points.
-
-Then, given the parameters of a mechanism, each point of the coupler can be
-expressed as a function of the input bar position
-
-$$
- C^i = [ C_x(\theta_2^i),\ C_y(\theta_2^i)]^T
-$$
-
-Now, it is desired to minimize the error between each precision point $C^i_d$ and
-the calculated point $C^i$, respectively. Thus, the error is calculated using the
-expression:
-
-$$
-	\text{error} = \sum_{i=1}^n \left[ (C_{xd} - C_x^i) + C_{yd} - C_y^i) \right]. 
-$$
-
-% 
-\subsection{Design Constraints} % (fold)
-\label{sub:design_constraints}
-It is important add some constraints to grantee the movement criteria and restrict
-the size and shape of me mechanism. Here is where the Grashof's Law takes place:\\
-
-Grashof's Law establishes that for a planar four-bar linkage, the sum of the shortest
-and the largest bars cannot be larger than the sum of the remaining bars, if a
-continual relative rotation between two elements is desired[[cite]]. \\
-
-Applying the Grashof's Law to our problem, we obtain
-$$
-r_1 + r_2 \leq r_3 + r_4.
-$$
-
-We need a Crank-rocker mechanism. Thus, for ensure the solution method, the following constraints were established:
-$$
-r_2 < r_3, \ r_3 < r_4, \ \text{ and } \ r_4 < r_1.
-$$
-
-On the other hand, the angle sequence $\theta_2^1,\ \ldots,\ \theta_2^n,\ $ must satisfy
-$ \theta_2^1 < \theta_2^2 <\ \cdots < \ \theta_2^n,\ $ because we are assuming successive precision points.
-
-\section{Experiments Design} % (fold)
-\label{sec:experiments_design}
-
-Experiments details are detailed here. The vector of design variables is
-
-$$
-	\vec{p} = ( r_1,\ r_2,\ r_3,\ r_4,\ r_{cx},\ r_{cy},\ x_0,\ y_0,\ \theta_0,\ \theta_2^1,\ \theta_2^2,\ \ldots,\ \theta_2^n  ) \in S \subset \mathbb{R}^{9+n},
-$$
-% 
-where the search space is $S = [0,\ 60]^4 \times [-60,\ 60]^4 \times [0,\ 2\pi ]^{n+1} $, i.e. each boundary is:
-% 
-% 
-\begin{align*}
-       r_1,\ r_2,\ r_3,\ r_4 & \in [0,\ 60]\\
- r_{cx},\ r_{cy},\ x_0,\ y_0 & \in [-60, 60]\\	
-\theta_0,\ \theta_2^1,\ \ldots,\ \theta_2^n &\in [0, 2\pi].
-\end{align*}
-% 
-Here, $r_1,\ \ldots,\ r_4$ correspond to the lengths of the bars. $(r_{cx},\ r_{cy})$
-is the position of the coupler. $O_2(x_0,\ y_0)$ is the coordinate position,
-$\theta_0$ is the orientation angle of the system with respect to the horizontal. Finally, $\theta_2^1,\ \ldots,\ \theta_2^n$ are angle values of the input bar $r_2$.\\
-% 
-
-Based on mentioned above, construct a four-bar crank-rocker mechanism is equivalent to solve the following constrained optimization problem:
-% 
-\begin{align}
-	\min f(\vec{p}) = \sum_{i=1}^n \left[ (C_{xd} - C_x^i) + C_{yd} - C_y^i) \right].
-\end{align}
-% 
-subject to: 
-% 
-\begin{align*}
- g_1( \vec{p})  & = r_1 + r_2 - r_3 - r_4 \\
- g_i(\vec{p})   & = r_i -  r_{i+1} \leq 0, \text{ for } i = 2, 3 \\
- g_4(\vec{p})   & = r_4 - r_1 \\
- g_{4 + i } (\vec{p})   & = \theta_{2}^i - \theta_{2}^{i+1} \leq 0,  \text{ for } i = 1, \ldots, n-1. 
-\end{align*}
-%
-
 \section{Evolutionary Centers Algorithm} % (fold)
 \label{sec:evolutionary_centers_algorithm}
 
@@ -430,11 +236,200 @@ to solve optimal synthesis of four-bar mechanism.
 	\end{algorithmic}
 \end{algorithm}
 
-\subsection{Algorithm Parameters} % (fold)
-\label{sub:algorithm_parameters}
+\section{Synthesis of Four-Bar Mechanisms} % (fold)
+\label{sec:synthesis_of_four_bar_mechanisms}
 
-Objective function is $\Phi$ detailed before. The maximum number of function evaluation
-(mas\_fes) was set to 20000$D$. $K = 7, \; \eta_{\max} = 4,\ P_{\text{exploit}} = 0.95,\ P_{\text{bin}} = 0.7$ and $\alpha = 1000$ in Equation \ref{eqn:phiObj}.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/four-bars.pdf}
+	\caption{Four-Bar mechanism diagram.}
+	\label{fig:fourbar}
+\end{figure}
+
+Four-bar mechanisms are formed by a references bar, input bar (crank), a coupler and a out bar (rocker). The simplicity of four-bar mechanisms provide many facilities for a large number of industrial applications [[cite]]. Actually, the kinematics of this kind of planar mechanisms have been extensively worked. A good idea it is transform from planar to coordinates coordinates, i.e.
+
+\begin{equation}
+	\vec{r}_k = r_k ( \cos(\theta_k) + i \sin( \theta_k ) ) \ \text{ for } \ k = 1,2,3,4.
+	\label{eqn:rpolar}
+\end{equation}
+
+\subsection{Kinematics of The Mechanism} % (fold)
+\label{sub:kinematics_of_the_mechanism}
+
+To analyze the mechanism position, the closed loop equation can be established as follows:
+
+\begin{equation}
+	\vec{r}_1 + \vec{r}_4 = \vec{r}_2 + \vec{r}_3.
+	\label{eqn:sumsr}
+\end{equation}
+
+From Equations (\ref{eqn:rpolar}) and  (\ref{eqn:sumsr}) we obtain the following system:
+\begin{equation}
+	\begin{cases}	
+	 	r_1\cos\theta_1 + r_4\cos\theta_4 = r_2\cos\theta_2 + r_3\cos\theta_3 \\
+	 	r_1\sin\theta_1 + r_4\sin\theta_4 = r_2\sin\theta_2 + r_3\sin\theta_3 
+	\end{cases}
+	\text{ implies } 
+	\label{eqn:systemr}
+\end{equation}
+% 
+Expressing the equation system (\ref{eqn:systemr}) in terms of $\vec{r}_4$
+% 
+\begin{equation}
+	\begin{cases}	
+	 	r_4\cos\theta_4 = r_2\cos\theta_2 + r_3\cos\theta_3 - r_1\cos\theta_1\\
+	 	r_4\sin\theta_4 = r_2\sin\theta_2 + r_3\sin\theta_3 - r_1\sin\theta_1
+	\end{cases}
+	\label{eqn:systemr4}
+\end{equation}
+% 
+% Squaring the system (\ref{eqn:systemr4}) and adding its terms we obtain:
+% 
+\begin{equation}
+	a \cos \theta_3 + b\sin\theta_3 + c = 0,
+\end{equation}
+% 
+where
+% 
+\begin{align*}
+	a &= 2r_3 ( r_2\cos\theta_2 - r_1\cos\theta_1 ),\\
+	b &= 2r_3 ( r_2\sin\theta_2 - r_1\sin\theta_1 ),\\
+	c &= r_1^2 + r_2^2 + r_3^2 - r_4^2 - 2r_1 r_2 \cos( \theta_1 - \theta_2 ).
+\end{align*}
+% 
+Then, the angle $\theta_3$ can be calculated as a function with parameters $a, b, c$ and $\theta_3$, and $\cos\theta_3$ in terms of $\tan (\theta_3 / 2)$:
+%
+\begin{align}
+ 	\sin \theta_3 &= \dfrac{2\tan(\theta_3 / 2)}{1 + \tan^2(\theta_3 / 2)}\\
+ 	\sin \theta_3 &= \dfrac{ - \tan^2(\theta_3 / 2)}{1 + \tan^2(\theta_3 / 2)}
+\end{align}
+%
+A second-order lineal equation is obtained by substitution on
+\begin{equation}
+	[c - a]\tan^2(\theta_3 / 2) + 2b\tan(\theta_3 / 2) + a + c = 0
+	\label{eqn:subs}
+\end{equation}
+% 
+From the solution of (\ref{eqn:subs}), the angular position $\theta_3$ is given by:
+\begin{equation}
+	\theta_3 = 2\arctan \left[ \dfrac{-B\pm \sqrt{b^2 - 4ac} }{c-a} \right].
+	\label{eqn:theta3}
+\end{equation}
+% 
+Analogously, we can get $\theta_4$.
+
+% section kinematics_of_the_coupler (end)
+\subsection{Kinematics of the Coupler} % (fold)
+\label{sec:kinematics_of_the_coupler}
+Since the point of interest in the coupler is $C(C_{xr}, C_{yr})$, to determine its position in the reference system $OX_r Y_r$ it has to be established that
+\begin{align}
+	C_{xr} &= r_2 \cos\theta_2 + r_{cx}\cos\theta_3 - r_{cy}\sin\theta_3,\\
+	C_{yr} &= r_2 \sin\theta_2 + r_{cx}\sin\theta_3 - r_{cy}\cos\theta_3,
+\end{align}
+In the global coordinate system, this point is expressed as:
+\begin{equation}
+	\begin{bmatrix}
+		C_x \\ C_y
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		\cos\theta_0 & -\sin\theta_0\\
+		\sin\theta_0 & -\cos\theta_0\\
+	\end{bmatrix}
+	\begin{bmatrix}
+		C_{xr} \\ C_{yr}
+	\end{bmatrix}
+	+\begin{bmatrix}
+		x_0 \\ y_0
+	\end{bmatrix}.
+	\label{eqn:cxr}
+\end{equation}
+Equations (\ref{eqn:theta3}) and (\ref{eqn:cxr}) and the expressions from the
+kinematics of the mechanism are sufficient to calculate the position of
+$C$ along the trajectory.
+
+\subsection{Design Objective Function} % (fold)
+
+In order to find the best mechanism such that the trajectory corresponds to $n$
+precision points, we quantify the error using quadratic error. Let 
+$M = \{ C^i_d \in \mathbb{R}^2 \ | \ i =1,2\ldots,n \}$ be a set of precision points.
+
+Then, given the parameters of a mechanism, each point of the coupler can be
+expressed as a function of the input bar position
+
+$$
+ C^i = [ C_x(\theta_2^i),\ C_y(\theta_2^i)]^T
+$$
+
+Now, it is desired to minimize the error between each precision point $C^i_d$ and
+the calculated point $C^i$, respectively. Thus, the error is calculated using the
+expression:
+
+$$
+	\text{error} = \sum_{i=1}^n \left[ (C_{xd} - C_x^i) + C_{yd} - C_y^i) \right]. 
+$$
+
+% 
+\subsection{Design Constraints} % (fold)
+\label{sub:design_constraints}
+It is important add some constraints to grantee the movement criteria and restrict
+the size and shape of me mechanism. Here is where the Grashof's Law takes place:\\
+
+Grashof's Law establishes that for a planar four-bar linkage, the sum of the shortest
+and the largest bars cannot be larger than the sum of the remaining bars, if a
+continual relative rotation between two elements is desired[[cite]]. \\
+
+Applying the Grashof's Law to our problem, we obtain
+$$
+r_1 + r_2 \leq r_3 + r_4.
+$$
+
+We need a Crank-rocker mechanism. Thus, for ensure the solution method, the following constraints were established:
+$$
+r_2 < r_3, \ r_3 < r_4, \ \text{ and } \ r_4 < r_1.
+$$
+
+On the other hand, the angle sequence $\theta_2^1,\ \ldots,\ \theta_2^n,\ $ must satisfy
+$ \theta_2^1 < \theta_2^2 <\ \cdots < \ \theta_2^n,\ $ because we are assuming successive precision points.
+
+\subsection{Experiments Design} % (fold)
+\label{sec:experiments_design}
+
+Experiments details are detailed here. The vector of design variables is
+
+$$
+	\vec{p} = ( r_1,\ r_2,\ r_3,\ r_4,\ r_{cx},\ r_{cy},\ x_0,\ y_0,\ \theta_0,\ \theta_2^1,\ \theta_2^2,\ \ldots,\ \theta_2^n  ) \in S \subset \mathbb{R}^{9+n},
+$$
+% 
+where the search space is $S = [0,\ 60]^4 \times [-60,\ 60]^4 \times [0,\ 2\pi ]^{n+1} $, i.e. each boundary is:
+% 
+% 
+\begin{align*}
+       r_1,\ r_2,\ r_3,\ r_4 & \in [0,\ 60]\\
+ r_{cx},\ r_{cy},\ x_0,\ y_0 & \in [-60, 60]\\	
+\theta_0,\ \theta_2^1,\ \ldots,\ \theta_2^n &\in [0, 2\pi].
+\end{align*}
+% 
+Here, $r_1,\ \ldots,\ r_4$ correspond to the lengths of the bars. $(r_{cx},\ r_{cy})$
+is the position of the coupler. $O_2(x_0,\ y_0)$ is the coordinate position,
+$\theta_0$ is the orientation angle of the system with respect to the horizontal. Finally, $\theta_2^1,\ \ldots,\ \theta_2^n$ are angle values of the input bar $r_2$.\\
+% 
+
+Based on mentioned above, construct a four-bar crank-rocker mechanism is equivalent to solve the following constrained optimization problem:
+% 
+\begin{align}
+	\min f(\vec{p}) = \sum_{i=1}^n \left[ (C_{xd} - C_x^i) + C_{yd} - C_y^i) \right].
+\end{align}
+% 
+subject to: 
+% 
+\begin{align*}
+ g_1( \vec{p})  & = r_1 + r_2 - r_3 - r_4 \\
+ g_i(\vec{p})   & = r_i -  r_{i+1} \leq 0, \text{ for } i = 2, 3 \\
+ g_4(\vec{p})   & = r_4 - r_1 \\
+ g_{4 + i } (\vec{p})   & = \theta_{2}^i - \theta_{2}^{i+1} \leq 0,  \text{ for } i = 1, \ldots, n-1. 
+\end{align*}
+%
 
 \subsection{Study Cases} % (fold)
 \label{sub:study_cases}
@@ -466,7 +461,7 @@ The vector of design variables is $ \vec{p} \in \mathbb{R}^{10} $
 	\centering
 	\begin{tabular}{ccc}
 			\hline
-			  &      $M_{3}$      &       $M_{3}$       \\
+			  &    $M_{3}^1$    &    $M_{3}^2$      \\
 			\hline
 			1 & (1.768, 2.3311) & (1.9592, 2.44973) \\
 			2 & (1.947, 2.6271) & (2.168, 2.675)    \\
@@ -484,7 +479,13 @@ The vector of design variables is $ \vec{p} \in \mathbb{R}^{10} $
 
 % subsection study_cases (end)
 
-\section{Results} % (fold)
+\subsection{Algorithm Parameters} % (fold)
+\label{sub:algorithm_parameters}
+
+Objective function is $\Phi$ detailed before. The maximum number of function evaluation
+(mas\_fes) was set to 20000$D$. $K = 7, \; \eta_{\max} = 4,\ P_{\text{exploit}} = 0.95,\ P_{\text{bin}} = 0.7$ and $\alpha = 1000$ in Equation \ref{eqn:phiObj}.
+
+\subsection{Results} % (fold)
 \label{sec:results}
 
 \begin{table}[!ht]
@@ -515,6 +516,7 @@ The vector of design variables is $ \vec{p} \in \mathbb{R}^{10} $
 \caption{Here, ``$\approx$'' means no difference was observed, based on a Wilcoxon signed rank sum test with a level of significance $\alpha = 0.05$.}
 \end{table}
 
+
 % \begin{table}[!ht]
 % 	\centering
 % 	\begin{tabular}{|c|c|}
@@ -530,6 +532,92 @@ The vector of design variables is $ \vec{p} \in \mathbb{R}^{10} $
 \section{Control} % (fold)
 \label{sec:control}
 
+In the preview Section, the main assumption considers that the angular velocity
+of the actuator is constants but this is not always fulfilled, if an electric motor
+drives the crank. For example, center of mass of FBM may move when the crank rotates.
+Also, the angular velocity of the crank is not constant when the inertia of the 
+FBM yields an external load to the motor. Thus, we need a control system that grantee 
+an uniform an efficient regulation of the angular velocity.
+
+\subsection{Dynamic Model} % (fold)
+\label{sub:dynamic_model}
+
+The four-bar mechanism with spring and damping forces (FBM-SDF) has one degree of
+freedom (DoF) in the crank. This DoF is actuated by a DC motor. Here, the $i-$th link is represented by its mass $m_i$, inertia $J_i$, length $L_i$, center of mass
+length $r_i$ and center of mass angle $\phi_i$. The angle of $i-$th link with respect to the base reference $(X, Y)$ is set as $\theta_i$. Here, $k$ and $C$ are the constant
+of the spring and the damping coefficient of the damper, respectively.
+
+Angular velocity $\dot{\theta}_i$, $ i = 2,3,4$ and the linear velocity $v_{ix},v_{iy}$
+of the center of mass of the $i-th$ link with respect to the inertial frame.
+
+\begin{align}
+	\dot{ \theta } &= \gamma_i \dot{\theta}_2\\
+	v_{ix} &= \alpha_i \dot{\theta}_2\\
+	v_{iy} &= \beta_i \dot{\theta}_2,
+\end{align}
+% 
+where
+\begin{align}
+	\alpha_2 &= -r_2\sin( \theta_2 + \phi_2 )\\
+	\alpha_3 &= -L_2\sin\theta_2  -r_3 \gamma_3 \sin(\theta_3 + \phi_3)  \\
+	\alpha_4 &= -r_4 \gamma_4 \sin( \theta_4 + \phi_4 ) \\
+	% 
+	\beta_2 &= r_2 \cos(\theta_2 + \phi_2) \\
+	\beta_3 &= L_2 \cos\theta_2 - r_2 \gamma_3 \cos( \theta_2 + \phi_3 ) \\
+	\beta_4 &= -r_4 \gamma_4 \cos(\theta_4 + \phi_4) \\
+	% 
+	\gamma_2 &= 1 \\
+	\gamma_3 &= \dfrac{L_2 \sin( \theta_4 - \theta_2 ) }{L_3 \sin( \theta_3 - \theta_4 ) } \\
+	\gamma_4 &= \dfrac{L_2 \sin( \theta_3 - \theta_2 ) }{L_3 \sin( \theta_3 - \theta_4 ) }. \\
+\end{align}
+% 
+Defining the Lagrangian function $\tilde{L}$, where $K$ and $P$ is the kinematic
+and potential energy, respectively:
+$$
+	\tilde{L} = K- P,
+$$
+% 
+where
+%
+\begin{align}
+	K &= \sum_{i=2}^4  \left( \dfrac{1}{2} m_i ( v^2_{ix} + v^2_{iy} )
+		+ \dfrac{1}{2} J_i \dot{ \theta_i^2 }  \right) = \dfrac{1}{2} A(\theta_2) \dot{\theta}_2^2  \\
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+	P &= \dfrac{1}{2}k (\theta_4 - \theta_{4,0})^2  \\ 
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+	A( \theta_2 ) &= \sum_{i=2}^4 ( m_i (\alpha_i^2 + \beta_i^2) + \gamma_i^2 J_i ).
+\end{align}
+
+Now, using...
+
+\subsection{Optimization Problem Definition} % (fold)
+\label{sec:optimization_problem_definition}
+
+\begin{equation}
+	\min_{\vec{p} \in \mathbb{R}^2} F( \vec{p} ) 
+\end{equation}
+% 
+subject to:
+% 
+% 
+\begin{align}
+	\dot{x}  & = f( \vec{x}, u( \vec{p},\ t ), t ) \\
+	   u(t)  & = K_{p} e(t) \int\limits_{0}^{t} \dot{\theta}_2^d dt 
+	   			+ K_I\int\limits_{0}^{t} e(t) dt + K_D \dot{e}(t) \\
+  \vec{x}(0) & = x_0 \\
+  g(\vec{x}) & \leq 0 \\
+  p_{i,\min} & \leq p \leq p_{i,\min}
+\end{align}
+
+% section optimization_problem_definition (end)
+
+
+% subsection dynamic_model (end)
+
+\subsection{Results} % (fold)
+\label{sub:results}
+
+% subsection results (end)
 
 \begin{table}[!ht]
 	\centering
