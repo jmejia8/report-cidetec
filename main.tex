@@ -178,7 +178,7 @@ here, $ P_{\text{evals}}$ is the evaluation ratio (current number of func. evalu
 %
 
 
-\subsection{Why Binomial Crossover?} % (fold)
+\subsubsection{Why Binomial Crossover?} % (fold)
 \label{sub:why_binomial_crossover_}
 
 Suppose you are using ECA without binomial crossover for optimizing a function $f:\mathbb{R}^D \to \mathbb{R}$ and you initialize the entire population in a plain $V \subset \mathbb{R}^D $ such that $0 \in V$. This plain $V$ is a vector subspace of $\mathbb{R}^D$, i.e. any linear combination of vectors in $V$ is in V.\\
@@ -542,10 +542,16 @@ an uniform an efficient regulation of the angular velocity.
 \subsection{Dynamic Model} % (fold)
 \label{sub:dynamic_model}
 
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/four-bar-spring.pdf}
+	\caption{Representation of a four-Bar mechanism with spring and damping forces.}
+\end{figure}
+
 The four-bar mechanism with spring and damping forces (FBM-SDF) has one degree of
 freedom (DoF) in the crank. This DoF is actuated by a DC motor. Here, the $i-$th link is represented by its mass $m_i$, inertia $J_i$, length $L_i$, center of mass
 length $r_i$ and center of mass angle $\phi_i$. The angle of $i-$th link with respect to the base reference $(X, Y)$ is set as $\theta_i$. Here, $k$ and $C$ are the constant
-of the spring and the damping coefficient of the damper, respectively.
+of the spring and the damping coefficient of the damper, respectively.\\
 
 Angular velocity $\dot{\theta}_i$, $ i = 2,3,4$ and the linear velocity $v_{ix},v_{iy}$
 of the center of mass of the $i-th$ link with respect to the inertial frame.
@@ -588,29 +594,127 @@ where
 	A( \theta_2 ) &= \sum_{i=2}^4 ( m_i (\alpha_i^2 + \beta_i^2) + \gamma_i^2 J_i ).
 \end{align}
 
-Now, using...
+% Now, using...
+
+
+The coupled dynamics of the DC motor with the FBM-SDF is given by combining  the
+dynamic equation of the DC motor:
+\begin{align}
+	T_b &= nK_f i(t) - n^2 B \dot{\theta}_2 - n^2 J \ddot{\theta_2} \\
+	L \dfrac{di(t)}{dt} + Ri(t) &= V_{in} (t) - nk_b \dot{\theta}_2
+\end{align}
+and
+$$
+	T = A( \theta_2 ) \ddot{\theta}_2 + \frac{1}{2} \dfrac{dA(\theta_2)}{d\theta_2}
+	\dot{\theta}_2^2 + k \gamma_4 ( \theta_4 - \theta_{4,0} ) + C \gamma_4^2 \dot{\theta}_2
+$$
+% 
+where
+\begin{align}
+	A(\theta_2) &=  C_0 + C_1 \gamma_3^2 + C_2 \gamma_4^2 + C_3 \gamma_3 \cos(\theta_2-\theta_3-\phi_3)\\
+	\dfrac{dA(\theta_2)}{d\theta_2} &= 2C_1 \gamma_3 \dfrac{d \gamma_3}{d \theta_2} -2C_2 \gamma_4 \dfrac{d \gamma_4}{d \theta_2}.
+	% 
+\end{align}
+$C_i,\ \dfrac{d \gamma_3}{d \theta_2}$ and $ \dfrac{d \gamma_4}{d \theta_2 } $ are
+detailed in \cite{calva13}.
+% 
+Assume that $ \vec{x} = [x_1,x_2,x_3]^T = [ \theta_2, \dot{\theta}_2,i ]^T $ and
+the input vector $u = V_{in}$, the coupled dynamics in a state space representation
+of the DC motor with the FBM-SDF is given by:
+\begin{align}
+	\dot{x} &= f( \vec{x}, u(t), t ) \\
+	&= 
+	\begin{bmatrix}
+		x_2\\
+		A_0( x_2^2 + A_2 x_2 + nK_f x_3 + A_3 ]\\
+		\dfrac{1}{L} (u(t) - n K_b x_2 - R x_3)
+	\end{bmatrix}
+\end{align}
+% 
+where
+\begin{align}
+	A_0 &= \dfrac{1}{A(x_1) + n^2 J_1} \\
+	A_1 &= -\dfrac{1}{2} \dfrac{d}{A(x_1)}{dx_1} \\
+	A_2 &= - (C \gamma_2^4 + n^2 B ) \\
+	A_3 &= -k \gamma_4( \theta_4 - \theta_{4,0} ).
+\end{align}
 
 \subsection{Optimization Problem Definition} % (fold)
 \label{sec:optimization_problem_definition}
 
+In 2013, Calva-Y{\'a}{\~n}ez \cite{calva13} based its strategy on the work of Tao
+and Sadler \cite{tao95}. The proposed control strategy is used in this work as well.
+The controller is stated as follow:
+%
+%
+\begin{equation}
+	u(t) =  K_{p} e(t) \int\limits_{0}^{t} \dot{\theta}_2^d dt 
+	   			+ K_I\int\limits_{0}^{t} e(t) dt + K_D \dot{e}(t),
+\end{equation}
+%
+where $K_p$, $K_I$, $K_D$ is the proportional, integral and derivate gains, 
+respectively. Here, $e(t) = \dot{\theta}_2^d - \dot{\theta}_2 $ and $\dot{e}(t) = - \ddot{\theta}_2 $, with $\dot{\theta}_2^d$ the constant desired velocity. \\
+
+The correct election of $K_p,\ K_d,\ K_I$ is important due to a bad selection of the PID
+gains, the input velocity of the crank could be considerably affected. Thus, the design variable vector is $ \vec{p} = [K_p,K_d,K_I]^T \in \mathbb{R}^3$, Note, $ \vec{p} $
+includes the gains of the modified PID controller.\\
+
+The dynamic optimization problem consists in finding the optimum design variables
+$\vec{p} \in \mathbb{R}^3 $ such that:
+
 \begin{equation}
 	\min_{\vec{p} \in \mathbb{R}^2} F( \vec{p} ) 
+	\label{eqn:minF}
 \end{equation}
 % 
 subject to:
 % 
 % 
 \begin{align}
-	\dot{x}  & = f( \vec{x}, u( \vec{p},\ t ), t ) \\
+	\dot{x}  & = f( \vec{x}, u( \vec{p},\ t ), t ) \\ \label{eqn:xDot}
 	   u(t)  & = K_{p} e(t) \int\limits_{0}^{t} \dot{\theta}_2^d dt 
 	   			+ K_I\int\limits_{0}^{t} e(t) dt + K_D \dot{e}(t) \\
   \vec{x}(0) & = x_0 \\
-  g(\vec{x}) & \leq 0 \\
-  p_{i,\min} & \leq p \leq p_{i,\min}
+  g_1(\vec{x}) & \leq 0 \\
+  g_2(\vec{x}) & \leq 0 \\
+  p_{i,\min} & \leq p \leq p_{i,\min}, \label{eqn:pLims}
 \end{align}
+% 
+%
+with objective function defined for $t_0 = \min \{ t \in [0, t_f] \ | \ x_2(t) = \dot{\theta}_{2}^{\text{d}}  \}$:
+\begin{equation}
+	F( \vec{p} ) = \left| \max_{t\in [t_0,\ t_f]} x_2 (t) - \min_{t\in [t_0,\ t_f]}x_2(t) \right|, 
+\end{equation}
+% 
+which may \textit{measure} the variation of the input velocity of the crank.
+% 
+If $F \to 0$, then $x_2(t) = \dot{\theta}_2(t)$ goes constant in $[t_0,\ t_f ]$. 
+The first constraint is the solutions of the differential equation of the dynamic
+model of the FBM-SDF choosing $x_0$ as the initial condition. This constraint
+provide the dynamic behavior of the  system in the optimization problem. It is
+necessary establish the rise time $t_r$ of the angular velocity of the crank
+$ \dot{\theta}_2(t) < 0.1$ and the overshoot does not exceed of $1.7\%$ of the
+desired angular velocity. Thus
+\begin{align}
+	g_1(t_r) &= t_r \leq 0.1s\\
+	g_2(t_r) &= \dot{\theta}_2(t_r) \leq \dot{\theta_2^d} + 0.0017\dot{\theta}_2^d.
+\end{align}
+%
+%
 
-% section optimization_problem_definition (end)
+Next section present the performance of Algorithm \ref{algoritmoEca} solving the
+constrained optimization problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}).
 
+\section{Experiment Parameters} % (fold)
+\label{sec:experiment_parameters}
+
+To solve the dynamic optimization problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}),
+the close loop system (\ref{eqn:xDot}) is solved the Runge-Kutta method
+\cite{dormand80} with initial condition chosen as $x_0 = [0,0,0]^T$ with desired
+velocity selected as $\theta_2^d = 30$ rad/s with the kinematic and dynamic parameters
+of the coupled dynamics detailed in \cite{calva13}. The bounds of the design
+variable vector is defined as $\vec{p} \in [0.1, \ 50]^3 \subset \mathbb{R}^3 $.
+% section experiment_parameters (end)
 
 % subsection dynamic_model (end)
 
