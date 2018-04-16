@@ -19,11 +19,12 @@
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
-Metaheuristics have been successfully used for solving real-word problems [[[cite]]].
+Metaheuristics have been successfully used for solving real-word problems \cite{easSurv}.
 This kind of algorithms almost always outperform Mathematical Programming when problems
 are highly non-linear and/or non-differentiable functions, large number of variables, 
-among others[[cite]]. Most recently and important Metaheuristics can be divided in three
-groups: Evolutionary Programming, Evolutionary Algorithms (EAs) and Physics-inspired Algorithms [[cite]].\\
+among others \cite{problemas}. Most recently and important Metaheuristics can be divided in three
+groups: Evolutionary Programming, Evolutionary Algorithms (EAs) and Physics-inspired
+Algorithms \cite{biswas2013physics, easSurv, DBLP:journals/corr/FisterYFBF13,spall03}.\\
 
 Physical metaphors ideas are used to construct metaheuristics optimization problems
 for example: Gravitational  Search Algorithm (GSA) \cite{rashedi2009gsa}, 
@@ -31,7 +32,8 @@ Gravitational Local Search (GLSA) \cite{glsa}, Big-Bang Big-Crunch (BBBC) \cite{
 Charged System Search (CSS) \cite{kaveh2010novel}, Central Force Optimization 
 (CFO) \cite{cfo2007}, Black Hole (BH) \cite{hatamlou2013black} algorithm, and Ray 
 Optimization (RO) algorithm \cite{kaveh2012new}, among others. Some recent surveys 
-on this topic can be found in \cite{fisicaSurvey,biswas2013physics,xie2011convergence,DBLP:journals/corr/FisterYFBF13}. 
+on this topic can be found in
+\cite{fisicaSurvey,biswas2013physics,DBLP:journals/corr/FisterYFBF13,xie2011convergence}. 
 % section introduction (end)
 
 % 
@@ -144,11 +146,13 @@ no feasibility information is used in the variation operator.
 \label{sub:some_considerations}
 
 
-For each solution $\vec{x}_i $ in the population $P = \{ \vec{x}_1, \vec{x}_2, \ldots, \vec{x}_{N} \} $ of $N$ 
+For each solution $\vec{x}_i $ in the population 
+$P = \{ \vec{x}_1, \vec{x}_2, \ldots, \vec{x}_{N} \} $ of $N$ 
 solutions, we select $U \subset P $ with $K$ \textbf{different} solutions. Next, 
-from $U$ we obtain the center of mass $\vec{c}$. After that, \textbf{we choose the solution} $\vec{u}_{\text{worst}} \in U$,  
-and the already generated center of mass $\vec{c}$, we generate a direction 
-to locate a new solution $ \vec{h}_i$. Using a binomial crossover, generate a new solution $\vec{h}_{i}$ with coordinates
+from $U$ we obtain the center of mass $\vec{c}$. After that, \textbf{we choose the solution}
+$\vec{u}_{\text{worst}} \in U$, and the already generated center of mass $\vec{c}$,
+we generate a direction to locate a new solution $ \vec{h}_i$. Using a binomial 
+crossover, generate a new solution $\vec{h}_{i}$ with coordinates
 
 %
 \begin{equation}
@@ -174,23 +178,33 @@ for $j = 1,2,\ldots,D$. Where
 	\label{eqn:vcu}
 \end{equation}
 %
-here, $ P_{\text{evals}}$ is the evaluation ratio (current number of func. evaluation / max. number of func. evaluations) and  $P_{\text{exploit}}$ is the last percentage of evaluations used for an exploitation process.
+here, $ P_{\text{evals}}$ is the evaluation ratio (current number of func. evaluation / max.
+number of func. evaluations) and  $P_{\text{exploit}}$ is the last percentage of
+evaluations used for an exploitation process.
 %
 
 
 \subsubsection{Why Binomial Crossover?} % (fold)
 \label{sub:why_binomial_crossover_}
 
-Suppose you are using ECA without binomial crossover for optimizing a function $f:\mathbb{R}^D \to \mathbb{R}$ and you initialize the entire population in a plain $V \subset \mathbb{R}^D $ such that $0 \in V$. This plain $V$ is a vector subspace of $\mathbb{R}^D$, i.e. any linear combination of vectors in $V$ is in V.\\
+Suppose you are using ECA without binomial crossover for optimizing a function 
+$f:\mathbb{R}^D \to \mathbb{R}$ and you initialize the entire population in a 
+plain $V \subset \mathbb{R}^D $ such that $0 \in V$. This plain $V$ is a vector 
+subspace of $\mathbb{R}^D$, i.e. any linear combination of vectors in $V$ is in V.\\
 
-Now, let $T:V^3 \to V$ be a linear transformation defined as $ T(\vec{x},\ \vec{c},\ \vec{u}) = \vec{x} + \eta ( \vec{c} - \vec{u} )$ where $c,x,u \in V$. Assume $x_\text{best} = \arg \max f(x)$ such that $x_\text{best} $ is not in $V$. Here, ECA can not reach $x_\text{best}$ because ECA only generate solution in $V$. Although, ECA without crossover can not generate solutions outside $V$.
+Now, let $T:V^3 \to V$ be a linear transformation defined as 
+$ T(\vec{x},\ \vec{c},\ \vec{u}) = \vec{x} + \eta ( \vec{c} - \vec{u} )$ where 
+$c,x,u \in V$. Assume $x_\text{best} = \arg \max f(x)$ such that $x_\text{best} $
+is not in $V$. Here, ECA can not reach $x_\text{best}$ because ECA only generate
+solution in $V$. Although, ECA without crossover can not generate solutions outside $V$.
 
 % section eca (end)
 
 \subsection{Constraints Handling} % (fold)
 \label{sub:constraints_handling}
 
-As we can see, ECA is designed to solve single-objective real-parametric optimization. Then, we need propose a method for constraints handling. We suggest use a penalty
+As we can see, ECA is designed to solve single-objective real-parametric optimization.
+Then, we need propose a method for constraints handling. We suggest use a penalty
 method, that is:
 % 
 \begin{equation}
@@ -246,7 +260,12 @@ to solve optimal synthesis of four-bar mechanism.
 	\label{fig:fourbar}
 \end{figure}
 
-Four-bar mechanisms are formed by a references bar, input bar (crank), a coupler and a out bar (rocker). The simplicity of four-bar mechanisms provide many facilities for a large number of industrial applications [[cite]]. Actually, the kinematics of this kind of planar mechanisms have been extensively worked. A good idea it is transform from planar to coordinates coordinates, i.e.
+This section is based on work of Hern{\'a}ndez-Oca{\~n}a et al \cite{hernandez2016}.
+Four-bar mechanisms are formed by a references bar, input bar (crank), a coupler
+and a out bar (rocker). The simplicity of four-bar mechanisms provide many facilities
+for a large number of industrial applications \cite{david2005, mccarthy6, toussaint3}.
+Actually, the kinematics of this kind of planar mechanisms have been extensively
+worked. A good idea it is transform from planar to coordinates coordinates, i.e.
 
 \begin{equation}
 	\vec{r}_k = r_k ( \cos(\theta_k) + i \sin( \theta_k ) ) \ \text{ for } \ k = 1,2,3,4.
@@ -297,7 +316,8 @@ where
 	c &= r_1^2 + r_2^2 + r_3^2 - r_4^2 - 2r_1 r_2 \cos( \theta_1 - \theta_2 ).
 \end{align*}
 % 
-Then, the angle $\theta_3$ can be calculated as a function with parameters $a, b, c$ and $\theta_3$, and $\cos\theta_3$ in terms of $\tan (\theta_3 / 2)$:
+Then, the angle $\theta_3$ can be calculated as a function with parameters $a, b, c$
+and $\theta_3$, and $\cos\theta_3$ in terms of $\tan (\theta_3 / 2)$:
 %
 \begin{align}
  	\sin \theta_3 &= \dfrac{2\tan(\theta_3 / 2)}{1 + \tan^2(\theta_3 / 2)}\\
@@ -321,7 +341,8 @@ Analogously, we can get $\theta_4$.
 % section kinematics_of_the_coupler (end)
 \subsection{Kinematics of the Coupler} % (fold)
 \label{sec:kinematics_of_the_coupler}
-Since the point of interest in the coupler is $C(C_{xr}, C_{yr})$, to determine its position in the reference system $OX_r Y_r$ it has to be established that
+Since the point of interest in the coupler is $C(C_{xr}, C_{yr})$, to determine
+its position in the reference system $OX_r Y_r$ it has to be established that
 \begin{align}
 	C_{xr} &= r_2 \cos\theta_2 + r_{cx}\cos\theta_3 - r_{cy}\sin\theta_3,\\
 	C_{yr} &= r_2 \sin\theta_2 + r_{cx}\sin\theta_3 - r_{cy}\cos\theta_3,
@@ -377,20 +398,22 @@ the size and shape of me mechanism. Here is where the Grashof's Law takes place:
 
 Grashof's Law establishes that for a planar four-bar linkage, the sum of the shortest
 and the largest bars cannot be larger than the sum of the remaining bars, if a
-continual relative rotation between two elements is desired[[cite]]. \\
+continual relative rotation between two elements is desired \cite{david2005}. \\
 
-Applying the Grashof's Law to our problem, we obtain
+Hence,applying the Grashof's Law to our problem, we obtain
 $$
 r_1 + r_2 \leq r_3 + r_4.
 $$
-
-We need a Crank-rocker mechanism. Thus, for ensure the solution method, the following constraints were established:
+% 
+Now, we need a Crank-rocker mechanism. Thus, for ensure the solution method, the
+following constraints were established:
 $$
 r_2 < r_3, \ r_3 < r_4, \ \text{ and } \ r_4 < r_1.
 $$
 
-On the other hand, the angle sequence $\theta_2^1,\ \ldots,\ \theta_2^n,\ $ must satisfy
-$ \theta_2^1 < \theta_2^2 <\ \cdots < \ \theta_2^n,\ $ because we are assuming successive precision points.
+On the other hand, the angle sequence $\theta_2^1,\ \ldots,\ \theta_2^n,\ $ must
+satisfy $ \theta_2^1 < \theta_2^2 <\ \cdots < \ \theta_2^n,\ $ because we are
+assuming successive precision points.
 
 \subsection{Experiments Design} % (fold)
 \label{sec:experiments_design}
@@ -412,10 +435,12 @@ where the search space is $S = [0,\ 60]^4 \times [-60,\ 60]^4 \times [0,\ 2\pi ]
 % 
 Here, $r_1,\ \ldots,\ r_4$ correspond to the lengths of the bars. $(r_{cx},\ r_{cy})$
 is the position of the coupler. $O_2(x_0,\ y_0)$ is the coordinate position,
-$\theta_0$ is the orientation angle of the system with respect to the horizontal. Finally, $\theta_2^1,\ \ldots,\ \theta_2^n$ are angle values of the input bar $r_2$.\\
+$\theta_0$ is the orientation angle of the system with respect to the horizontal.
+Finally, $\theta_2^1,\ \ldots,\ \theta_2^n$ are angle values of the input bar $r_2$.\\
 % 
 
-Based on mentioned above, construct a four-bar crank-rocker mechanism is equivalent to solve the following constrained optimization problem:
+Based on mentioned above, construct a four-bar crank-rocker mechanism is equivalent
+to solve the following constrained optimization problem:
 % 
 \begin{align}
 	\min f(\vec{p}) = \sum_{i=1}^n \left[ (C_{xd} - C_x^i) + C_{yd} - C_y^i) \right].
@@ -430,6 +455,9 @@ subject to:
  g_{4 + i } (\vec{p})   & = \theta_{2}^i - \theta_{2}^{i+1} \leq 0,  \text{ for } i = 1, \ldots, n-1. 
 \end{align*}
 %
+
+Next Section presents three study cases and how they are solved using the Algorithm
+\ref{algoritmoEca}.
 
 \subsection{Study Cases} % (fold)
 \label{sub:study_cases}
@@ -483,10 +511,20 @@ The vector of design variables is $ \vec{p} \in \mathbb{R}^{10} $
 \label{sub:algorithm_parameters}
 
 Objective function is $\Phi$ detailed before. The maximum number of function evaluation
-(mas\_fes) was set to 20000$D$. $K = 7, \; \eta_{\max} = 4,\ P_{\text{exploit}} = 0.95,\ P_{\text{bin}} = 0.7$ and $\alpha = 1000$ in Equation \ref{eqn:phiObj}.
+(mas\_fes) was set to 20000$D$. $K = 7, \; \eta_{\max} = 4,\ P_{\text{exploit}} = 0.95,\ P_{\text{bin}} = 0.7$
+and $\alpha = 1000$ in Equation \ref{eqn:phiObj}.
 
 \subsection{Results} % (fold)
 \label{sec:results}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.3\linewidth]{img/m1.pdf}
+	\includegraphics[width=0.3\linewidth]{img/m2.pdf}
+	\includegraphics[width=0.3\linewidth]{img/m3.pdf}
+	\caption{Optimal Mechanism}
+	\label{fig:optimalM}
+\end{figure}
 
 \begin{table}[!ht]
 \centering
@@ -513,9 +551,16 @@ Objective function is $\Phi$ detailed before. The maximum number of function eva
 	& ED  & 500000  & 2.749687E--01 & 2.773593E--01 & 7.610914E--01 & 1.116940E+00  &  \\ \hline
 	% --------------------------------------------------------------------------
 \end{tabular}
-\caption{Here, ``$\approx$'' means no difference was observed, based on a Wilcoxon signed rank sum test with a level of significance $\alpha = 0.05$.}
+\caption{Here, ``$\approx$'' means no difference was observed, based on a Wilcoxon
+signed rank sum test with a level of significance $\alpha = 0.05$.}
 \end{table}
 
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/convergence_1.pdf}
+	\caption{Convergence at median.}
+	\label{fig:convMedian1}
+\end{figure}
 
 % \begin{table}[!ht]
 % 	\centering
@@ -549,9 +594,11 @@ an uniform an efficient regulation of the angular velocity.
 \end{figure}
 
 The four-bar mechanism with spring and damping forces (FBM-SDF) has one degree of
-freedom (DoF) in the crank. This DoF is actuated by a DC motor. Here, the $i-$th link is represented by its mass $m_i$, inertia $J_i$, length $L_i$, center of mass
-length $r_i$ and center of mass angle $\phi_i$. The angle of $i-$th link with respect to the base reference $(X, Y)$ is set as $\theta_i$. Here, $k$ and $C$ are the constant
-of the spring and the damping coefficient of the damper, respectively.\\
+freedom (DoF) in the crank. This DoF is actuated by a DC motor. Here, the $i-$th
+link is represented by its mass $m_i$, inertia $J_i$, length $L_i$, center of mass
+length $r_i$ and center of mass angle $\phi_i$. The angle of $i-$th link with
+respect to the base reference $(X, Y)$ is set as $\theta_i$. Here, $k$ and $C$
+are the constant of the spring and the damping coefficient of the damper, respectively.\\
 
 Angular velocity $\dot{\theta}_i$, $ i = 2,3,4$ and the linear velocity $v_{ix},v_{iy}$
 of the center of mass of the $i-th$ link with respect to the inertial frame.
@@ -593,8 +640,6 @@ where
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 	A( \theta_2 ) &= \sum_{i=2}^4 ( m_i (\alpha_i^2 + \beta_i^2) + \gamma_i^2 J_i ).
 \end{align}
-
-% Now, using...
 
 
 The coupled dynamics of the DC motor with the FBM-SDF is given by combining  the
@@ -656,7 +701,8 @@ where $K_p$, $K_I$, $K_D$ is the proportional, integral and derivate gains,
 respectively. Here, $e(t) = \dot{\theta}_2^d - \dot{\theta}_2 $ and $\dot{e}(t) = - \ddot{\theta}_2 $, with $\dot{\theta}_2^d$ the constant desired velocity. \\
 
 The correct election of $K_p,\ K_d,\ K_I$ is important due to a bad selection of the PID
-gains, the input velocity of the crank could be considerably affected. Thus, the design variable vector is $ \vec{p} = [K_p,K_d,K_I]^T \in \mathbb{R}^3$, Note, $ \vec{p} $
+gains, the input velocity of the crank could be considerably affected. Thus, the
+design variable vector is $ \vec{p} = [K_p,K_d,K_I]^T \in \mathbb{R}^3$, Note, $ \vec{p} $
 includes the gains of the modified PID controller.\\
 
 The dynamic optimization problem consists in finding the optimum design variables
@@ -732,6 +778,23 @@ variable vector is defined as $\vec{p} \in [0.1, \ 50]^3 \subset \mathbb{R}^3 $.
 		CHED & 20000 & 2.120037E--01 & 2.232873E--01 & 2.206308E--01 & 2.340816E--01 & 8.093537E--03 \\ \hline
 	\end{tabular}
 \end{table}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/control.pdf}
+	\includegraphics[width=0.8\linewidth]{img/control_zoom.pdf}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/control_median.pdf}
+	\includegraphics[width=0.8\linewidth]{img/control_median_zoom.pdf}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/conv_control.pdf}
+\end{figure}
 
 % section control (end)
 
