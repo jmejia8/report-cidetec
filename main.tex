@@ -11,10 +11,24 @@
 \usepackage{algorithm, algpseudocode}
 
 \title{Solving Engineering Problems using Physics-inspired Metaheuristic}
-\author{Jesús-Adolfo Mejía-de-Dios}
+\author{Jesús-Adolfo Mejía-de-Dios
+\\
+{\bf Advisers:}\\
+PhD. 
+Efrén Mezura-Montes
+and
+PhD.
+Edgar-Alfredo Portilla-Flores
+}
 
 \begin{document}
 \maketitle
+
+\begin{abstract}
+	Physics-inspired Metaheuristic based on center of mass concept is used to solve engineering problems. A comparison against competitive evolutionary algorithm
+	is made and the results obtained are promising, since this Metaheuristic requires
+	less objective function evaluations.
+\end{abstract}
 
 \section{Introduction} % (fold)
 \label{sec:introduction}
@@ -208,7 +222,7 @@ Then, we need propose a method for constraints handling. We suggest use a penalt
 method, that is:
 % 
 \begin{equation}
-	\Phi( \vec{p} ) = f( \vec{p} ) + \alpha \sum_{i=1}^{n+9} G(g_i( \vec{p} ) ),
+	\Phi( \vec{p} ;\ \alpha ) = f( \vec{p} ) + \alpha \sum_{i=1}^{n+9} G(g_i( \vec{p} ) ),
 % 
 	\label{eqn:phiObj}
 % 
@@ -230,7 +244,7 @@ to solve optimal synthesis of four-bar mechanism.
 	\caption{ECA pseudocode}
 	\label{algoritmoEca}
 	\begin{algorithmic}[1]
-		\Procedure{ECA}{$K = 7, \; \eta_{\max} = 4,\ P_{\text{exploit}} = 0.95,\ P_{\text{bin}} = 0.7$}
+		\Procedure{ECA}{$K = 7, \; \eta_{\max} = 4,\ P_{\text{exploit}} = 0.95,\ P_{\text{bin}} = 0.7,\ \alpha = 100$}
 		\State $N \gets K * D$
 		\State Generate and evaluate start population $P$ with $N$ elements
 		\While{the end criterion is not achieved}
@@ -240,7 +254,7 @@ to solve optimal synthesis of four-bar mechanism.
 				\State $\eta \gets \text{rand}(0,\; \eta_{\max}) $ 
 				\State Calculate $\vec{h}$ using Eq. (\ref{eqn:newSol})
 				
-				\If{$ \Phi (\vec{x}) < \Phi (\vec{h})  $}
+				\If{$ \Phi (\vec{x}; \alpha) < \Phi (\vec{h}; \alpha)  $}
 					\State Replace worst element in $P$ with $\vec{h}$
 				\EndIf
 			\EndFor
@@ -400,7 +414,7 @@ Grashof's Law establishes that for a planar four-bar linkage, the sum of the sho
 and the largest bars cannot be larger than the sum of the remaining bars, if a
 continual relative rotation between two elements is desired \cite{david2005}. \\
 
-Hence,applying the Grashof's Law to our problem, we obtain
+Hence, applying the Grashof's Law to our problem, we obtain
 $$
 r_1 + r_2 \leq r_3 + r_4.
 $$
@@ -553,35 +567,7 @@ Thus, the optimization problem for this cased is given by (\ref{eqn:objfun2}) an
 % subsection study_cases (end)
 
 \subsection{Results and Discussion} % (fold)
-\label{sec:results}
-
-Algorithm \ref{algoritmoEca} was used for solving the three four bar-mechanism
-synthesis design problems detailed above. ECA was coded in Julia 0.6 and executed
-on a PC with a Core i5 and 8GB of RAM, and 64 bits Linux Mint 18 operating system.\\
-
-The set of parameters for ECA for each case are presented in the Table \ref{tab:parms}.
-
-
-\begin{table}[!ht]
-	\centering
-	\begin{tabular}{ccccc}
-		    & Max. Evals. & $\eta_{\max}$ & $K$ & $N$ \\ \hline
-		M01 &   300000    &     2         &  3  & 100 \\
-		M02 &    60000    &     2         &  7  & 42 \\
-		M03 &   350000    &     3         &  7  & 200 \\
-	\end{tabular}
-	\caption{Parameters of Algorithm \ref{algoritmoEca}. First column is the number
-	of study case. $\eta_{\max}$, $K$ and $N$ are the stepsize, $K$-value and the population size, respectively.}
-	\label{tab:parms}
-\end{table}
-
-The statistical results obtained by Algorithm \ref{algoritmoEca} are reported in
-Table \ref{eqn:statRes}. Furthermore, we compared ECA against a variant of differential
-evolution [[cite]] which is a competitive evolutionary algorithm designed for solving
-optimal four-bar synthesis [[cite]]. As we can see, ECA, based on the 95\%-confidence
-Wilcoxon Rank-Sum test, ECA reached similar results in the three problems but with
-less objective function evaluations. As we can see in Figure \ref{fig:convMedian1},
-our approach is able to converge fast in most cases, which can be suitable for computationally-expensive real-world optimization problems.
+\label{sec:results1}
 
 \begin{table}[!ht]
 	\centering
@@ -613,23 +599,51 @@ our approach is able to converge fast in most cases, which can be suitable for c
 	\label{eqn:statRes}
 \end{table}
 
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=0.95\linewidth]{img/convergence_1.pdf}
-	\caption{Convergence at median.}
-	\label{fig:convMedian1}
-\end{figure}
-
-Figure \ref{fig:optimalM} shows the best mechanism found by Algorithm \ref{algoritmoEca}.
+Algorithm \ref{algoritmoEca} was used for solving the three four bar-mechanism
+synthesis design problems detailed above. ECA was coded in Julia 0.6 and executed
+on a PC with a Core i5 and 8GB of RAM, and 64 bits Linux Mint 18 operating system.
+The set of parameters for ECA for each case are presented in the Table \ref{tab:parms}.
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.3\linewidth]{img/m1.pdf}
 	\includegraphics[width=0.3\linewidth]{img/m2.pdf}
 	\includegraphics[width=0.3\linewidth]{img/m3.pdf}
-	\caption{Optimal Mechanism}
+	\caption{Mechanisms provided by ECA. From mechanical point of view, this designs are good, since the trajectory of M01 and M02 pass over the precision points.}
 	\label{fig:optimalM}
 \end{figure}
+
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{cccccc}
+		    & Max. Evals. & $\eta_{\max}$ & $K$ & $N$ & Constraints \\ \hline
+		M01 &   300000    &     2         &  3  & 100 & 10\\
+		M02 &    60000    &     2         &  7  & 42  & 4 \\
+		M03 &   350000    &     3         &  7  & 200 & 14\\
+	\end{tabular}
+	\caption{Parameters of Algorithm \ref{algoritmoEca}. First column is the number
+	of study case. $\eta_{\max}$, $K$ and $N$ are the stepsize, $K$-value and the population size, respectively.}
+	\label{tab:parms}
+\end{table}
+
+The statistical results obtained by Algorithm \ref{algoritmoEca} are reported in
+Table \ref{eqn:statRes}. Furthermore, we compared ECA against a variant of differential
+evolution \cite{ed1995} which is a competitive evolutionary algorithm designed for solving
+optimal four-bar synthesis \cite{hernandez2016}. As we can see, ECA, based on the 95\%-confidence
+Wilcoxon Rank-Sum test, ECA reached similar results in the three problems but with
+less objective function evaluations. As we can see in Figure \ref{fig:convMedian1},
+our approach was able to converge fast in the threes cases.
+% which can be suitable for computationally-expensive real-world optimization problems.
+Figure \ref{fig:optimalM} shows the best mechanism found by Algorithm \ref{algoritmoEca}.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.95\linewidth]{img/convergence_1.pdf}
+	\caption{Convergence at median. ECA provides fast convergence in three the study cases.}
+	\label{fig:convMedian1}
+\end{figure}
+
+
 
 % \begin{table}[!ht]
 % 	\centering
@@ -786,6 +800,7 @@ subject to:
 % 
 % 
 \begin{align}
+	\label{eqn:mysystem}
 	\dot{x}  & = f( \vec{x}, u( \vec{p},\ t ), t ) \\ \label{eqn:xDot}
 	   u(t)  & = K_{p} e(t) \int\limits_{0}^{t} \dot{\theta}_2^d dt 
 	   			+ K_I\int\limits_{0}^{t} e(t) dt + K_D \dot{e}(t) \\
@@ -820,21 +835,24 @@ desired angular velocity. Thus
 Next section present the performance of Algorithm \ref{algoritmoEca} solving the
 constrained optimization problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}).
 
-\section{Experiment Parameters} % (fold)
-\label{sec:experiment_parameters}
+\subsection{Experiments} % (fold)
 
 To solve the dynamic optimization problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}),
-the close loop system (\ref{eqn:xDot}) is solved the Runge-Kutta method
-\cite{dormand80} with initial condition chosen as $x_0 = [0,0,0]^T$ with desired
-velocity selected as $\theta_2^d = 30$ rad/s with the kinematic and dynamic parameters
+the close loop system (\ref{eqn:xDot}) is solved using the Runge-Kutta method
+\cite{dormand80} with initial condition $x_0 = [0,0,0]^T$ with desired
+velocity selected as $\theta_2^d = 30$ rad/s and the kinematic and dynamic parameters
 of the coupled dynamics detailed in \cite{calva13}. The bounds of the design
-variable vector is defined as $\vec{p} \in [0.1, \ 50]^3 \subset \mathbb{R}^3 $.
-% section experiment_parameters (end)
-
-% subsection dynamic_model (end)
+variable vector is defined as $\vec{p} \in [0.1, \ 50]^3 \subset \mathbb{R}^3 $.\\
 
 \subsection{Results} % (fold)
 \label{sub:results}
+
+Using the same experiment settings of Section \ref{sec:results1}, we use Algorithm 
+\ref{algoritmoEca} for solving the dynamic optimization problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}). Here, the parameters where $\eta_{\max} = 4$, $K = 3$, $N = 10$, $\alpha = 100$ and max\_evals $=$ 10000.\\
+
+Statistical results obtained in 31 independent runs by ECA and CHED are presented in Table \ref{tab:res2}. No significant difference was found, based on the 90\%-confidence Wilcoxon test, which means that ECA obtain good results for this kind of problems. Besides, Algorithm \ref{algoritmoEca} requires
+less objective function evaluations to get good results compared with a competitive state-art evolutionary algorithm.\\
+
 
 % subsection results (end)
 
@@ -846,32 +864,68 @@ variable vector is defined as $\vec{p} \in [0.1, \ 50]^3 \subset \mathbb{R}^3 $.
 		ECA & 10000 & 2.055877E--01 & 2.340816E--01 & 2.292241E--01 & 2.345938E--01 & 9.315045E--03 \\ \hline
 		CHED & 20000 & 2.120037E--01 & 2.232873E--01 & 2.206308E--01 & 2.340816E--01 & 8.093537E--03 \\ \hline
 	\end{tabular}
+	\caption{Results of 31 independent runs of ECA on the dynamic optimization problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}). Here, the feasibility ratio was 100\%.}
+	\label{tab:res2}
 \end{table}
-
+% 
+% 
+% 
+% 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.8\linewidth]{img/control.pdf}
+	\includegraphics[width=0.9\linewidth]{img/control.pdf}
+	\begin{center}
+		(A) \hspace{0.4\linewidth} (B)
+	\end{center}
+	\caption{(A) Shows the angular crank velocity with time (seconds) in [0.05, 2]
+	with both approaches. (B) shows the behavior of the control signal obtained
+	by the optimum design variable vector and with the experimental tuning.}
+	\label{fig:tunning}
+\end{figure}
+% 
+% 
+% 
+\begin{figure}[!ht]
+	\centering
 	\includegraphics[width=0.8\linewidth]{img/control_zoom.pdf}
+	\caption{Zoom of each respective graphic in Figure \ref{fig:tunning}. The rise time of the angular velocity of optimization approach is less than the experimental approach.}
+	\label{fig:tunningZoom}
 \end{figure}
-
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=0.8\linewidth]{img/control_median.pdf}
-	\includegraphics[width=0.8\linewidth]{img/control_median_zoom.pdf}
-\end{figure}
-
+% 
+% \begin{figure}[!ht]
+% 	\centering
+% 	\includegraphics[width=0.8\linewidth]{img/control_median.pdf}
+% 	\includegraphics[width=0.8\linewidth]{img/control_median_zoom.pdf}
+% \end{figure}
+% 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.8\linewidth]{img/conv_control.pdf}
+	\caption{Convergence at median of 31 independent runs. Note the fast convergence
+	in this problem.}
+	\label{fig:convMedian2}
 \end{figure}
 
-% section control (end)
+In Figure \ref{fig:tunning} (A) shows that the control signal of the manual approach has a lower overshoot than the second approach to reach the reference value of 30 rad/s.
+% 
+Finally, Algorithm \ref{algoritmoEca} was capable to converge fast (see Figure \ref{fig:convMedian2}), which is convenient because this optimization problem is, relatively,
+computationally expensive, since for each constraint evaluation, it is necessary to solve the system of differential equations (\ref{eqn:mysystem}).
 
+\section{Conclusion and Future Work} % (fold)
+\label{sec:conclusion_and_future_work}
 
-% section results (end)
+Physics-inspired Metaheuristic was presented ans used to solve engineering 
+problems with promising results. ECA was capable to solve those problems using
+less objective functions evaluations with equivalent results given by a 
+competitive evolutionary algorithm.\\
+
+Make a study to calibrate the parameters of Algorithm \ref{algoritmoEca} and
+study others constraint handling methods to improve results. That are part of future work.
+
+% section conclusion_and_future_work (end)
 
 % references
-\clearpage
+% \clearpage
 \bibliographystyle{plain}
 \bibliography{references}
 
