@@ -14,10 +14,10 @@
 \author{Jesús-Adolfo Mejía-de-Dios
 \\
 {\bf Advisers:}\\
-PhD. 
+Dr. 
 Efrén Mezura-Montes
 and
-PhD.
+Dr.
 Edgar-Alfredo Portilla-Flores
 }
 
@@ -28,7 +28,7 @@ Edgar-Alfredo Portilla-Flores
 	Physics-inspired Metaheuristic based on center of mass concept is used to solve
 	engineering problems. A comparison against competitive evolutionary algorithm
 	is made and the results obtained are promising, since this metaheuristic requires
-	less evaluations of objective function.
+	less evaluations of objective function with competitive results.
 \end{abstract}
 
 \section{Introduction} % (fold)
@@ -51,8 +51,8 @@ on this topic can be found in
 \cite{fisicaSurvey,biswas2013physics,DBLP:journals/corr/FisterYFBF13,xie2011convergence}. \\
 
 Thus, it is important to know how metaheuristic behave in real-word problems.
-In this work numerical constrained optimization problems (CNOP) are considered,
-without loss of generality, a CNOP can be defined as to:\\
+In this work, numerical constrained optimization problems (COP) are considered,
+without loss of generality, a COP can be defined as to:\\
 
 \noindent
 Minimize:
@@ -62,10 +62,11 @@ Minimize:
 \end{equation}
 %
 subject to:
-\begin{align*}
+\begin{align}
+	\label{eqn:gCop}
 	g_i(\vec{x}) &\leq 0,& i =&  1 , \ldots, p \\
 	h_j(\vec{x}) &= 0,& j =& p+1, \ldots, m
-\end{align*}
+\end{align}
 %
 where $S = \prod_{k = 1}^D  [ x_{k,\min},\ x_{k,\max} ]$ i.e. $x_k \in [ x_{k,\min},\ x_{k,\max} ]$ 
 for $k = 1,2,\ldots,D$. The problem is subject to $p$ inequality constraints and 
@@ -76,9 +77,10 @@ with $\varepsilon > 0$ a small value; then $\vec{x}$ is regarded feasible.\\
 
 The following Section \ref{sec:eca} describes the metaheuristic based on center
 of mass concept. Section \ref{sec:synthesis_of_four_bar_mechanisms} explains the
-general synthesis of a four-bar mechanism and three representative study cases.
-Section \ref{sec:control} presents the coupled dynamics of the four-bar mechanism
-with DC motor. Finally, the conclusions are given in Section \ref{sec:conclusion_and_future_work}.
+general synthesis of a four-bar mechanism and three representative study cases on
+this topic. Section \ref{sec:control} presents the coupled dynamics of the
+four-bar mechanism with DC motor. Finally, the conclusions are given in
+Section \ref{sec:conclusion_and_future_work}.
 % section introduction (end)
 
 % 
@@ -142,7 +144,7 @@ its mass, then each solution in the population has a mass value associated,  i.e
 we set $f(\vec{x}) = m(\vec{x})$ for all $\mathbb{R}^D$. Without loss of generality, 
 it is assumed the maximization of a non-negative function $f$. 
 Theoretically, this approach (ECA) use this name, since satisfy the definition of
-Evolutionary Algorithm \cite{back}.
+Evolutionary Algorithm \cite{back} and it will be treated as an EA.
 
 
 \subsection{Variation Operator} % (fold)
@@ -186,7 +188,7 @@ of the other solutions in $U$, as depicted in  Figure \ref{fig:masses}.
 The bias is precisely given by Equation (\ref{eqn:center}) because for a solution 
 with the highest mass, the position of the center of mass is near  
 its position. It is then important to remark that this bias is constraint-independent, i.e., 
-no feasibility information is used in the variation operator.
+no feasibility information is used in the variation operator, initially.
 
 \subsection{Some Considerations} % (fold)
 \label{sub:some_considerations}
@@ -194,7 +196,7 @@ no feasibility information is used in the variation operator.
 
 For each solution $\vec{x}_i $ in the population 
 $P = \{ \vec{x}_1, \vec{x}_2, \ldots, \vec{x}_{N} \} $ of $N$ 
-solutions, we select $U \subset P $ with $K$ \textbf{different} solutions. Next, 
+solutions, we select $U \subset P $ with $K$ \textbf{different} individuals. Next, 
 from $U$ we obtain the center of mass $\vec{c}$. After that, \textbf{we choose the solution}
 $\vec{u}_{\text{worst}} \in U$, and the already generated center of mass $\vec{c}$,
 we generate a direction to locate a new solution $ \vec{h}_i$. Using a binomial 
@@ -283,16 +285,17 @@ solution in $V$. Although, ECA without crossover can not generate solutions outs
 \end{figure}
 
 As we can see, ECA is designed to solve single-objective real-parametric optimization.
-Then, we need propose a method for constraints handling. We suggest use a penalty
-method, that is:
+Then, we need propose a method for constraints handling. Here, a penalty
+method is suggested, i.e.:
 % 
 \begin{equation}
-	\Phi( \vec{p} ;\ \alpha ) = f( \vec{p} ) + \alpha \sum_{i=1}^{n+9} G(g_i( \vec{p} ) ),
+	\Phi( \vec{p} ;\ \alpha ) = f( \vec{p} ) + \alpha \sum_{i=1}^{n} G(g_i( \vec{p} ) )
+	 + \alpha \sum_{i=1}^{m} |h_i( \vec{p} )|,
 % 
 	\label{eqn:phiObj}
 % 
 \end{equation}
-where 
+with $g_i$ and $h_i$ constraints (as in Eq. (\ref{eqn:gCop})) and 
 $$
 G(x) = 
 \begin{cases}
@@ -324,7 +327,7 @@ synthesis of a four-bar mechanism is explained.
 
 This section is based on work of Hern{\'a}ndez-Oca{\~n}a et al \cite{hernandez2016}.
 Four-bar mechanisms are formed by a references bar, input bar (crank), a coupler
-and a out bar (rocker). The simplicity of four-bar mechanisms provide many facilities
+and a out bar (rocker). The simplicity of four-bar mechanisms (FBM) provide many facilities
 for a large number of industrial applications \cite{david2005, mccarthy6, toussaint3}.
 Actually, the kinematics of this kind of planar mechanisms have been extensively
 worked. A good idea it is transform from planar to coordinates coordinates, i.e.
@@ -436,7 +439,7 @@ $C$ along the trajectory.
 In order to find the best mechanism such that the trajectory corresponds to $n$
 precision points, we quantify the error using quadratic error. Let 
 $M = \{ C^i_d \in \mathbb{R}^2 \ | \ i =1,2\ldots,n \}$ be a set of precision points.
-
+% 
 Then, given the parameters of a mechanism, each point of the coupler can be
 expressed as a function of the input bar position
 
@@ -529,7 +532,7 @@ Next Section presents three study cases and how they are solved using the Algori
 \subsection{Study Cases} % (fold)
 \label{sub:study_cases}
 
-Three study cases are presented here. Each case consists $n$ precision points which
+Here, three study cases are presented. Each case consists $n$ precision points which
 we need obtain a four-bar mechanism such that the coupler pass through them. Figure
 \ref{fig:studycases} shows the point distribution for each case.
 
@@ -552,7 +555,7 @@ synchronization. The set of precision points is defined as
 $$
 	M_{1} = \{ (20, 20),\ (20, 25),\ (20, 30),\ (20, 35),\ (20, 40),\ (20, 45) \}
 $$
-The vector of design variables (\ref{eqn:desigVars}) becomes $ \vec{p} \in \mathbb{R}^{15} $, since $|M| = 6$. 
+The vector of design variables (see Eq. \ref{eqn:desigVars}) becomes $ \vec{p} \in \mathbb{R}^{15} $, since $|M| = 6$. 
 %
 %
 \item[M02.] The second study case is the design of a four-bar mechanism that follows
@@ -569,7 +572,7 @@ $$
 $$
 % 
 Also, $x_0, y_0, \theta_0 = 0$. Hence, the design variables is $\vec{p} \in \mathbb{R}^6$.
-Here, we have only four constraints $g_1(\vec{p}), \ldots, g_4(\vec{p})$ in the
+This case has only four constraints $g_1(\vec{p}), \ldots, g_4(\vec{p})$ in the
 COP (\ref{eqn:objfun1})-(\ref{eqn:g4}).
 
 
@@ -600,7 +603,7 @@ must adjust a trajectory to each par simultaneously.
 	\end{tabular}
 	\caption{Pairs of precision points for case study 3.}
 \end{table}
-In this case, we need to modify the objective function:
+In this case, It is necessary to modify the objective function, then:
 \begin{align}
 	f(\vec{p}) &= \sum_{i=1}^n \left[ (C_{xd}^i - C_x^i) + C_{yd}^i - C_y^i) \right]
 	+ \sum_{i=1}^n \left[ (C_{2xd}^i - C_x^i) + C_{2yd}^i - C_y^i) \right],
@@ -647,12 +650,12 @@ Thus, the optimization problem for this cased is given by (\ref{eqn:objfun2}) an
 	feasibility ratio is 100\%.}
 	\label{eqn:statRes}
 \end{table}
-
+% 
 Algorithm \ref{algoritmoEca} was used for solving the three four bar-mechanism
 synthesis design problems detailed above. ECA was coded in Julia 0.6 and executed
 on a PC with a Core i5 and 8GB of RAM, and 64 bits Linux Mint 18 operating system.
 The set of parameters for ECA for each case are presented in the Table \ref{tab:parms}.
-
+% 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.3\linewidth]{img/m1.pdf}
@@ -676,25 +679,38 @@ The set of parameters for ECA for each case are presented in the Table \ref{tab:
 	population size, respectively.}
 	\label{tab:parms}
 \end{table}
-
+% 
+% 
 The statistical results obtained by Algorithm \ref{algoritmoEca} are reported in
 Table \ref{eqn:statRes}. Furthermore, we compared ECA against a variant of differential
 evolution \cite{ed1995} which is a competitive evolutionary algorithm designed for solving
 optimal four-bar synthesis \cite{hernandez2016}. As we can see, ECA, based on the 95\%-confidence
 Wilcoxon Rank-Sum test, ECA reached similar results in the three problems but with
 less evaluations of objective function. As we can see in Figure \ref{fig:convMedian1},
-our approach was able to converge fast in the threes cases.
+ECA was able to converge fast in the threes cases.
 % which can be suitable for computationally-expensive real-world optimization problems.
-Figure \ref{fig:optimalM} shows the best mechanism found by Algorithm \ref{algoritmoEca}.
+Figure \ref{fig:optimalM} shows the best mechanism found by this approach (numerical
+values in Table \ref{tab:valuesR}).
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.95\linewidth]{img/convergence_1.pdf}
+	\includegraphics[width=0.65\linewidth]{img/convergence_1.pdf}
 	\caption{Convergence at median. ECA provides fast convergence in three the study cases.}
 	\label{fig:convMedian1}
 \end{figure}
 
-
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{cccccccccc}
+	% rcx,rcy,θ0,x0,y0
+		    & $r_1$   &  $r_2$  &   $r_3$ &  $r_4$  & $r_{cx}$&$r_{cy}$ &   $\theta_0$ &  $x_0$    & $y_0$ \\ \hline
+		M01 & 25.8069 & 7.20684 & 25.4333 & 25.5819 & 43.7612 & 17.3124 & 4.32806 & -18.4544  & 56.3919 \\
+		M02 & 14.3145 & 2.21117 & 14.3145 & 14.3145 & 2.17436 & 0.022209&  0.0    &   0.0     & 0.0 \\
+		M03 & 2.61459 & 1.0348  & 1.82689 & 2.20789 & 1.25092 & 0.447341& 5.8268  & 0.0991696 & 1.3288 \\
+	\end{tabular}
+	\caption{Best feasible solutions found by ECA.}
+	\label{tab:valuesR}
+\end{table}
 
 % \begin{table}[!ht]
 % 	\centering
@@ -712,11 +728,11 @@ Figure \ref{fig:optimalM} shows the best mechanism found by Algorithm \ref{algor
 \label{sec:control}
 
 In the preview Section, the main assumption considers that the angular velocity
-of the actuator is constants but this is not always fulfilled, if an electric motor
+of the actuator is constant but this is not always fulfilled, if an electric motor
 drives the crank. For example, center of mass of FBM may move when the crank rotates.
 Also, the angular velocity of the crank is not constant when the inertia of the 
 FBM yields an external load to the motor. Thus, we need a control system that grantee 
-an uniform an efficient regulation of the angular velocity.
+an uniform an efficient regulation of the angular velocity \cite{calva13}.
 
 \subsection{Dynamic Model} % (fold)
 \label{sub:dynamic_model}
@@ -821,7 +837,7 @@ where
 \subsection{Optimization Problem Definition} % (fold)
 \label{sec:optimization_problem_definition}
 
-In 2013, Calva-Y{\'a}{\~n}ez \cite{calva13} based its strategy on the work of Tao
+In 2013, Calva-Y{\'a}{\~n}ez et al \cite{calva13} based its strategy on the work of Tao
 and Sadler \cite{tao95}. The proposed control strategy is used in this work as well.
 The controller is stated as follow:
 %
@@ -884,7 +900,7 @@ desired angular velocity. Thus
 %
 %
 
-Next section present the performance of Algorithm \ref{algoritmoEca} solving the
+Next section presents the performance of Algorithm \ref{algoritmoEca} solving the
 constrained optimization problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}).
 
 \subsection{Experiments} % (fold)
@@ -900,13 +916,13 @@ variable vector is defined as $\vec{p} \in [0.1, \ 50]^3 \subset \mathbb{R}^3 $.
 \label{sub:results}
 
 Using the same experiment settings of Section \ref{sec:results1}, we use Algorithm 
-\ref{algoritmoEca} for solving the dynamic optimization problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}).
+\ref{algoritmoEca} for solving the dynamic optimization problem (\ref{eqn:minF}) - (\ref{eqn:pLims}).
 Here, the parameters where $\eta_{\max} = 4$, $K = 3$, $N = 10$, $\alpha = 100$
-and max\_evals $=$ 10000.\\
+and max\_evals $=$ 10000. ECA is compared against the CHDE algorithm which is successfully applications for tunning the PID controller \cite{calva13}.\\
 
-Statistical results obtained in 31 independent runs by ECA and CHED are presented
+Statistical results obtained from 31 independent runs by ECA and CHDE are presented
 in Table \ref{tab:res2}. No significant difference was found, based on the
-90\%-confidence Wilcoxon test, which means that ECA obtain good results for this
+90\%-confidence Wilcoxon test, which means that ECA obtained good results for this
 kind of problems. Besides, Algorithm \ref{algoritmoEca} requires less evaluations
 of objective function to get good results compared with a competitive state-art
 evolutionary algorithm.\\
@@ -920,7 +936,7 @@ evolutionary algorithm.\\
 		\hline
 		& {\bf Evals.} & {\bf Best} & {\bf Median} & {\bf Mean} & {\bf Worst} & {\bf Std.} \\ \hline
 		ECA & 10000 & 2.055877E--01 & 2.340816E--01 & 2.292241E--01 & 2.345938E--01 & 9.315045E--03 \\ \hline
-		CHED & 20000 & 2.120037E--01 & 2.232873E--01 & 2.206308E--01 & 2.340816E--01 & 8.093537E--03 \\ \hline
+		CHDE & 20000 & 2.120037E--01 & 2.232873E--01 & 2.206308E--01 & 2.340816E--01 & 8.093537E--03 \\ \hline
 	\end{tabular}
 	\caption{Results of 31 independent runs of ECA on the dynamic optimization
 	problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}). Here, the feasibility ratio was 100\%.}
@@ -967,7 +983,7 @@ evolutionary algorithm.\\
 	\label{fig:convMedian2}
 \end{figure}
 
-In Figure \ref{fig:tunning} (A) shows that the control signal of the manual
+The Figure \ref{fig:tunning} (A) shows that the control signal of the manual
 approach has a lower overshoot than the second approach to reach the reference
 value of 30 rad/s.
 % 
@@ -976,10 +992,10 @@ which is convenient because this optimization problem is, relatively,
 computationally expensive, since for each constraint evaluation, it is necessary
 to solve the system of differential equations (\ref{eqn:mysystem}).
 
-\section{Conclusion and Future Work} % (fold)
+\section{Conclusions and Future Work} % (fold)
 \label{sec:conclusion_and_future_work}
 
-Physics-inspired Metaheuristic was presented ans used to solve engineering 
+Physics-inspired Metaheuristic was presented and used to solve engineering 
 problems with promising results. ECA was capable to solve those problems using
 less objective functions evaluations with equivalent results given by a 
 competitive evolutionary algorithm.\\
