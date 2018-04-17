@@ -26,8 +26,8 @@ Edgar-Alfredo Portilla-Flores
 
 \begin{abstract}
 	Physics-inspired Metaheuristic based on center of mass concept is used to solve engineering problems. A comparison against competitive evolutionary algorithm
-	is made and the results obtained are promising, since this Metaheuristic requires
-	less objective function evaluations.
+	is made and the results obtained are promising, since this metaheuristic requires
+	less evaluations of objective function.
 \end{abstract}
 
 \section{Introduction} % (fold)
@@ -47,12 +47,39 @@ Charged System Search (CSS) \cite{kaveh2010novel}, Central Force Optimization
 (CFO) \cite{cfo2007}, Black Hole (BH) \cite{hatamlou2013black} algorithm, and Ray 
 Optimization (RO) algorithm \cite{kaveh2012new}, among others. Some recent surveys 
 on this topic can be found in
-\cite{fisicaSurvey,biswas2013physics,DBLP:journals/corr/FisterYFBF13,xie2011convergence}. 
+\cite{fisicaSurvey,biswas2013physics,DBLP:journals/corr/FisterYFBF13,xie2011convergence}. \\
+
+Thus, it is important to know how metaheuristic behave in real-word problems.
+In this work numerical constrained optimization problems (CNOP) are considered,
+without loss of generality, a CNOP can be defined as to:\\
+
+\noindent
+Minimize:
+\begin{equation}
+	f(\vec{x}),\ \vec{x}  \in S \subset \mathbb{R}^D
+	\label{eqn:fx}
+\end{equation}
+%
+subject to:
+\begin{align*}
+	g_i(\vec{x}) &\leq 0,& i =&  1 , \ldots, p \\
+	h_j(\vec{x}) &= 0,& j =& p+1, \ldots, m
+\end{align*}
+%
+where $S = \prod_{k = 1}^D  [ x_{k,\min},\ x_{k,\max} ]$ i.e. $x_k \in [ x_{k,\min},\ x_{k,\max} ]$ 
+for $k = 1,2,\ldots,D$. The problem is subject to $p$ inequality constraints and 
+$m - p$ equality constraints. If $\vec{x}$ satisfies $g_i( \vec{x} ) \leq 0$, for 
+$i = 1, \ldots, p$ and $|h_j(\vec{x})| \leq \varepsilon$, for $j = p+1, \ldots, m$ 
+with $\varepsilon > 0$ a small value; then $\vec{x}$ is regarded feasible.\\
+
+
+The following Section \ref{sec:eca} describes the metaheuristic based on center of mass concept. Section \ref{sec:synthesis_of_four_bar_mechanisms} explains the general synthesis of a four-bar mechanism and three representative study cases. Section \ref{sec:control} presents the coupled dynamics of the four-bar mechanism with DC motor.
+Finally, the conclusions are given in Section \ref{sec:conclusion_and_future_work}.
 % section introduction (end)
 
 % 
 \section{Evolutionary Centers Algorithm} % (fold)
-\label{sec:evolutionary_centers_algorithm}
+\label{sec:eca}
 
 Our approach is based on the center of mass definition, which is adopted for 
 creating new directions and generate a bias in the population, and such bias is 
@@ -156,6 +183,7 @@ its position. It is then important to remark that this bias is constraint-indepe
 no feasibility information is used in the variation operator. 
 %
 
+
 \subsection{Some Considerations} % (fold)
 \label{sub:some_considerations}
 
@@ -178,7 +206,7 @@ crossover, generate a new solution $\vec{h}_{i}$ with coordinates
 	\label{eqn:newSol}
 \end{equation}
 % 
-for $j = 1,2,\ldots,D$. Where 
+for $j = 1,2,\ldots,D$. With 
 %
 \begin{equation}
 	\vec{y}_i = 
@@ -217,29 +245,6 @@ solution in $V$. Although, ECA without crossover can not generate solutions outs
 \subsection{Constraints Handling} % (fold)
 \label{sub:constraints_handling}
 
-As we can see, ECA is designed to solve single-objective real-parametric optimization.
-Then, we need propose a method for constraints handling. We suggest use a penalty
-method, that is:
-% 
-\begin{equation}
-	\Phi( \vec{p} ;\ \alpha ) = f( \vec{p} ) + \alpha \sum_{i=1}^{n+9} G(g_i( \vec{p} ) ),
-% 
-	\label{eqn:phiObj}
-% 
-\end{equation}
-where 
-$$
-G(x) = 
-\begin{cases}
-	\displaystyle
-	x & \text{ if } x > 0 \\
-	0 & \text{ otherwise. }
-\end{cases}
-$$
-% 
-Algorithm \ref{algoritmoEca} is the general pseudocode of ECA. We use our approach
-to solve optimal synthesis of four-bar mechanism.
-
 \begin{algorithm}[!ht]
 	\caption{ECA pseudocode}
 	\label{algoritmoEca}
@@ -263,6 +268,41 @@ to solve optimal synthesis of four-bar mechanism.
 		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
+
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.35\linewidth]{img/ecaG.pdf}
+	\caption{Schematic diagram representing a generation of ECA. Gray points % 
+	represent elements in $U$. Gray area is representing the feasible region.}
+	\label{fig:ecag}       % Give a unique label
+\end{figure}
+
+As we can see, ECA is designed to solve single-objective real-parametric optimization.
+Then, we need propose a method for constraints handling. We suggest use a penalty
+method, that is:
+% 
+\begin{equation}
+	\Phi( \vec{p} ;\ \alpha ) = f( \vec{p} ) + \alpha \sum_{i=1}^{n+9} G(g_i( \vec{p} ) ),
+% 
+	\label{eqn:phiObj}
+% 
+\end{equation}
+where 
+$$
+G(x) = 
+\begin{cases}
+	\displaystyle
+	x & \text{ if } x > 0 \\
+	0 & \text{ otherwise. }
+\end{cases}
+$$
+% 
+% 
+% 
+Algorithm \ref{algoritmoEca} is the general pseudocode of ECA and Figure \ref{fig:ecag} shows a representation of ECA solution update. Next section presents the general synthesis of a four-bar mechanism is explained.
+% 
+% 
 
 \section{Synthesis of Four-Bar Mechanisms} % (fold)
 \label{sec:synthesis_of_four_bar_mechanisms}
@@ -631,7 +671,7 @@ Table \ref{eqn:statRes}. Furthermore, we compared ECA against a variant of diffe
 evolution \cite{ed1995} which is a competitive evolutionary algorithm designed for solving
 optimal four-bar synthesis \cite{hernandez2016}. As we can see, ECA, based on the 95\%-confidence
 Wilcoxon Rank-Sum test, ECA reached similar results in the three problems but with
-less objective function evaluations. As we can see in Figure \ref{fig:convMedian1},
+less evaluations of objective function. As we can see in Figure \ref{fig:convMedian1},
 our approach was able to converge fast in the threes cases.
 % which can be suitable for computationally-expensive real-world optimization problems.
 Figure \ref{fig:optimalM} shows the best mechanism found by Algorithm \ref{algoritmoEca}.
@@ -851,7 +891,7 @@ Using the same experiment settings of Section \ref{sec:results1}, we use Algorit
 \ref{algoritmoEca} for solving the dynamic optimization problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}). Here, the parameters where $\eta_{\max} = 4$, $K = 3$, $N = 10$, $\alpha = 100$ and max\_evals $=$ 10000.\\
 
 Statistical results obtained in 31 independent runs by ECA and CHED are presented in Table \ref{tab:res2}. No significant difference was found, based on the 90\%-confidence Wilcoxon test, which means that ECA obtain good results for this kind of problems. Besides, Algorithm \ref{algoritmoEca} requires
-less objective function evaluations to get good results compared with a competitive state-art evolutionary algorithm.\\
+less evaluations of objective function to get good results compared with a competitive state-art evolutionary algorithm.\\
 
 
 % subsection results (end)
@@ -920,7 +960,11 @@ less objective functions evaluations with equivalent results given by a
 competitive evolutionary algorithm.\\
 
 Make a study to calibrate the parameters of Algorithm \ref{algoritmoEca} and
-study others constraint handling methods to improve results. That are part of future work.
+study others constraint handling methods to improve results. That are part of future work.\\
+
+\noindent
+The source code can be downloaded from
+\verb|https://github.com/jmejia8/eca-four-bar-mechanisms|
 
 % section conclusion_and_future_work (end)
 
