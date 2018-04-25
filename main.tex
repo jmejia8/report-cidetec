@@ -11,14 +11,7 @@
 \usepackage{algorithm, algpseudocode}
 
 \title{Solving Engineering Problems using Physics-inspired Metaheuristic}
-\author{Jesús-Adolfo Mejía-de-Dios
-\\
-{\bf Advisers:}\\
-Dr. 
-Efrén Mezura-Montes
-and
-Dr.
-Edgar-Alfredo Portilla-Flores
+\author{Jesús-Adolfo Mejía-de-Dios, Efrén Mezura-Montes and Edgar-Alfredo Portilla-Flores
 }
 
 \begin{document}
@@ -26,9 +19,9 @@ Edgar-Alfredo Portilla-Flores
 
 \begin{abstract}
 	Physics-inspired Metaheuristic based on center of mass concept is used to solve
-	engineering problems. A comparison against competitive evolutionary algorithm
-	is made and the results obtained are promising, since this metaheuristic requires
-	less evaluations of objective function with competitive results.
+	engineering problems. A comparison against competitive metaheuristics
+	is made and the results obtained are promising, since this metaheuristic provides
+	a fast convergence to feasible optimal solutions.
 \end{abstract}
 
 \section{Introduction} % (fold)
@@ -490,7 +483,8 @@ Experiments details are detailed here. The vector of design variables is
 	\label{eqn:desigVars}
 \end{equation}
 % 
-where the search space is $S = [0,\ 60]^4 \times [-60,\ 60]^4 \times [0,\ 2\pi ]^{n+1} $, i.e. each boundary is:
+where the search space is $S = [0,\ 60]^4 \times [-60,\ 60]^4 \times [0,\ 2\pi ]^{n+1} $,
+i.e. each boundary is:
 % 
 % 
 \begin{align*}
@@ -615,56 +609,19 @@ Thus, the optimization problem for this cased is given by (\ref{eqn:objfun2}) an
 
 \end{itemize}
 
+Next section presents results and discussion about how ECA solve those study cases.
+
 % subsection study_cases (end)
 
 \subsection{Results and Discussion} % (fold)
 \label{sec:results1}
-
-\begin{table}[!ht]
-	\centering
-	\begin{tabular}{clrccccc}
-		\hline
-		 & {\bf Alg.} & {\bf Evals}.  & {\bf Best} & {\bf Median} & {\bf Mean} & {\bf Std.} \\ \hline
-		 % 
-		% --------------------------------------------------------------------------
-		\multirow{2}{*}{M01}
-		& ECA & 300000  & 0.000000E+00  & 3.455233E--04 & 4.449034E--04 & 7.345703E--04 &
-		\multirow{2}{*}{$ \approx $}\\  
-		& ED  & 750000  & 7.573065E--29 & 1.328421E--05 & 2.601458E--03 & 7.588249E--03 &  \\ \hline
-		% 
-		% --------------------------------------------------------------------------
-		\multirow{2}{*}{M02}
-		& ECA &  60000  & 2.628079E--03 & 2.628079E--03 & 2.628079E--03 & 4.408496E--19 & 
-		\multirow{2}{*}{$ \approx $}\\ 
-		& ED  & 100000  & 2.628079E--03 & 2.628079E--03 & 2.628079E--03 & 6.736261E--18 &  \\ \hline
-		% 
-		% --------------------------------------------------------------------------
-		\multirow{2}{*}{M03}
-		& ECA & 380000  & 2.749687E--01 & 2.783940E--01 & 3.755563E--01 & 2.502182E--01 & 
-		\multirow{2}{*}{$ \approx $}\\ 
-		& ED  & 500000  & 2.749687E--01 & 2.773593E--01 & 7.610914E--01 & 1.116940E+00  &  \\ \hline
-		% --------------------------------------------------------------------------
-	\end{tabular}
-	\caption{Here, ``$\approx$'' means no difference was observed, based on a Wilcoxon
-	signed rank sum test with a level of significance $\alpha = 0.05$. Also, the
-	feasibility ratio is 100\%.}
-	\label{eqn:statRes}
-\end{table}
-% 
+%
+%
 Algorithm \ref{algoritmoEca} was used for solving the three four bar-mechanism
 synthesis design problems detailed above. ECA was coded in Julia 0.6 and executed
 on a PC with a Core i5 and 8GB of RAM, and 64 bits Linux Mint 18 operating system.
 The set of parameters for ECA for each case are presented in the Table \ref{tab:parms}.
 % 
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=0.3\linewidth]{img/m1.pdf}
-	\includegraphics[width=0.3\linewidth]{img/m2.pdf}
-	\includegraphics[width=0.3\linewidth]{img/m3.pdf}
-	\caption{Mechanisms provided by ECA. From mechanical point of view, this designs
-	are good, since the trajectory of M01 and M02 pass over the precision points.}
-	\label{fig:optimalM}
-\end{figure}
 
 \begin{table}[!ht]
 	\centering
@@ -681,23 +638,95 @@ The set of parameters for ECA for each case are presented in the Table \ref{tab:
 \end{table}
 % 
 % 
-The statistical results obtained by Algorithm \ref{algoritmoEca} are reported in
-Table \ref{eqn:statRes}. Furthermore, we compared ECA against a variant of differential
-evolution \cite{ed1995} which is a competitive evolutionary algorithm designed for solving
-optimal four-bar synthesis \cite{hernandez2016}. As we can see, ECA, based on the 95\%-confidence
-Wilcoxon Rank-Sum test, ECA reached similar results in the three problems but with
-less evaluations of objective function. As we can see in Figure \ref{fig:convMedian1},
-ECA was able to converge fast in the threes cases.
-% which can be suitable for computationally-expensive real-world optimization problems.
-Figure \ref{fig:optimalM} shows the best mechanism found by this approach (numerical
-values in Table \ref{tab:valuesR}).
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{clrccccc}
+		\hline
+		 & {\bf Alg.} & {\bf Evals}.  & {\bf Best} & {\bf Median} & {\bf Mean} & {\bf Std.} & \textbf{FR} \\ \hline
+		 % 
+		% --------------------------------------------------------------------------
+		\multirow{5}{*}{M01}
+		& ECA & 300000  & 0.000000E+00  & 3.455233E--04 & 4.449034E--04 & 7.345703E--04 & 100\\  
+		& DE  & 750000  & 7.573065E--29 & 1.328421E--05 & 2.601458E--03 & 7.588249E--03 & 100 \\
+        & jSO & 300000  & 3.034694E+00  & 5.420723E+01  & 5.251329E+01  & 2.124186E+01  & 100 \\
+        & CMA-ES&300000 & 9.439613E+02  & 5.698732E+03  & 6.989858E+03  & 5.625107E+03  & 97 \\
+        & CGSA& 300000  & 1.407237E+03  & 2.879480E+03  & 4.652438E+03  & 3.420529E+03  & 16 \\ \hline
+		% 
+		% --------------------------------------------------------------------------
+		\multirow{5}{*}{M02}
+		& ECA &  60000  & 2.628079E--03 & 2.628079E--03 & 2.628079E--03 & 4.408496E--19 & 100\\ 
+		& DE  & 100000  & 2.628079E--03 & 2.628079E--03 & 2.628079E--03 & 6.736261E--18 & 100\\
+        & jSO &  60000  & 3.846763E--03 & 4.455081E--03 & 4.466941E--03 & 3.402181E--04 & 100\\
+        & CMA-ES& 60000 & 8.536825E+00  & 8.931659E+01  & 5.978027E+02  & 1.346087E+03  & 100\\
+        & CGSA&  60000  & 4.400252E+00  & 9.183622E+01  & 6.436224E+02  & 1.072564E+03  & 97 \\ \hline
+		% 
+		% --------------------------------------------------------------------------
+		\multirow{5}{*}{M03}
+		& ECA & 380000  & 2.749687E--01 & 2.783940E--01 & 3.755563E--01 & 2.502182E--01 & 100\\ 
+		& DE  & 500000  & 2.749687E--01 & 2.773593E--01 & 7.610914E--01 & 1.116940E+00  & 100\\
+        & jSO & 380000  & 6.263872E+00  & 1.098373E+01  & 1.135768E+01  & 3.089884E+00  & 100 \\
+        & CMA-ES&380000 &      --       &      --       &       --      &       --      & 0 \\
+        & CGSA& 380000  &      --       &      --       &       --      &       --      & 0 \\ \hline
+		% --------------------------------------------------------------------------
+	\end{tabular}
+	\caption{Each algorithm solved 31 times each problem, and their statistical results
+	are presented here.}
+	\label{eqn:statRes}
+\end{table}
+% 
+The statistical results obtained from 31 independent runs for each problem and
+algorithm are reported in Table \ref{eqn:statRes}. Furthermore, we compared ECA
+against a variant of differential
+evolution (DE) \cite{ed1995} which is a competitive evolutionary algorithm designed
+for solving optimal four-bar synthesis \cite{hernandez2016} and some recent
+representative algorithms: an adaptive version of (jSO) \cite{jso2017}, evolutionary
+strategy with auxiliary evolution path (CMA-ES) \cite{li2017efficient} and a
+physics-inspired algorithm based on the law of gravity and mass interactions
+(CGSA) \cite{mirjalili2017chaotic}. For those recent algorithms, Deb rules were
+used as constraint handling method.\\
 
+The feasibility rate (FR) is defined as \textit{(\# of feasible runs) / Total runs},
+where a feasible run is a run where at least one feasible solution was found. Here,
+``algorithm $\mathcal{A}_1$ outperforms algorithm $\mathcal{A}_2$'' means 
+FR$_{\mathcal{A}_1} > $ FR$_{\mathcal{A}_2}$ or if FR$_{\mathcal{A}_1} = $ FR$_{\mathcal{A}_2} = 100$,
+then a 95\%-confidence Wilcoxon Rank-Sum test was performed.
+
+%
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{ccccc}
+	        &     DE    & jSO & CMA-ES & CGSA \\ \hline
+		M01 & $\approx$ &  +  &  + &  +    \\
+		M02 & $\approx$ &  +  &  + &  +    \\
+		M03 & $\approx$ &  +  &  + &  +    \\
+	\end{tabular}
+	\caption{ A comparison between ECA, DE, JSO, CMA-ES and CGSA. ``+'' means that
+			  ECA outperformed DE, JSO, CMA-ES and CGSA in the problem  %
+			  in the corresponding row and ``$\approx$'' means that no significant-difference
+			  was observed between algorithms.}
+	\label{tab:summary1}
+\end{table}
+%
+
+Comparing ECA and DE, ECA reached similar results in the three problems but with
+less evaluations of objective function. Also, ECA outperformed jSO, CMA-ES and CGSA.
+% 
+As we can see in Figure \ref{fig:convMedian1}, ECA was able to converge fast in the
+three cases. Figure \ref{fig:optimalM} shows the best mechanism found by this
+approach (numerical values in Table \ref{tab:valuesR}). Thus, ECA is capable to
+solve this kind of problems with less objective function evaluations.
+
+% 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.65\linewidth]{img/convergence_1.pdf}
-	\caption{Convergence at median. ECA provides fast convergence in three the study cases.}
-	\label{fig:convMedian1}
+	\includegraphics[width=0.3\linewidth]{img/m1.pdf}
+	\includegraphics[width=0.3\linewidth]{img/m2.pdf}
+	\includegraphics[width=0.3\linewidth]{img/m3.pdf}
+	\caption{Mechanisms provided by ECA. From mechanical point of view, this designs
+	are good, since the trajectory of M01 and M02 pass over the precision points.}
+	\label{fig:optimalM}
 \end{figure}
+% 
 
 \begin{table}[!ht]
 	\centering
@@ -712,17 +741,15 @@ values in Table \ref{tab:valuesR}).
 	\label{tab:valuesR}
 \end{table}
 
-% \begin{table}[!ht]
-% 	\centering
-% 	\begin{tabular}{|c|c|}
-% 		\hline
-% 		    & p-value \\ \hline
-% 		M01 & 0.85  \\ \hline
-% 		M02 & 1 \\ \hline
-% 		M03 & 0.28\\ \hline
-		
-% 	\end{tabular}
-% \end{table}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.90\linewidth]{img/convergence_1.pdf}
+	\caption{Convergence at median. ECA provides fast convergence in the three study cases.}
+	\label{fig:convMedian1}
+\end{figure}
+
+Section \ref{sec:control} presents a low-dimensional problem but with a computational
+expensive objective function. Thus, a fast convergence with good results is required.
 
 \section{Control of a Four-Bar Mechanism with Spring and Damping Forces.} % (fold)
 \label{sec:control}
@@ -918,31 +945,40 @@ variable vector is defined as $\vec{p} \in [0.1, \ 50]^3 \subset \mathbb{R}^3 $.
 Using the same experiment settings of Section \ref{sec:results1}, we use Algorithm 
 \ref{algoritmoEca} for solving the dynamic optimization problem (\ref{eqn:minF}) - (\ref{eqn:pLims}).
 Here, the parameters where $\eta_{\max} = 4$, $K = 3$, $N = 10$, $\alpha = 100$
-and max\_evals $=$ 10000. ECA is compared against the CHDE algorithm which is successfully applications for tunning the PID controller \cite{calva13}.\\
+and max\_evals $=$ 10000. ECA is compared against the CHDE algorithm which is 
+successfully applications for tunning the PID controller \cite{calva13} and jSO,
+CMA-ES, CGSA described in Section \ref{sec:results1}.\\
 
-Statistical results obtained from 31 independent runs by ECA and CHDE are presented
-in Table \ref{tab:res2}. No significant difference was found, based on the
-90\%-confidence Wilcoxon test, which means that ECA obtained good results for this
-kind of problems. Besides, Algorithm \ref{algoritmoEca} requires less evaluations
-of objective function to get good results compared with a competitive state-art
-evolutionary algorithm.\\
+%
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{cccccccc}
+		\hline
+		& {\bf Evals.} & {\bf Best} & {\bf Median} & {\bf Mean} & {\bf Std.} & \textbf{FR} \\ \hline
+		ECA   & 10000 & 2.055877E--01 & 2.340816E--01 & 2.292241E--01  & 9.315045E--03  & 100 &  \\ \hline
+		CHDE  & 20000 & 2.120037E--01 & 2.232873E--01 & 2.206308E--01  & 8.093537E--03  & 100 & $\approx$ \\ \hline
+		jSO   & 10000 & 2.202552E--01 & 2.346575E--01 & 2.332935E--01  & 4.432099E--03  & 100 & $\approx$ \\ \hline
+		CMA-ES& 10000 & 2.408596E--01 & 3.127803E--01 & 3.254891E--01  & 7.575018E--02  &  74 & $+$ \\ \hline
+		CGSA  & 10000 & 3.334081E--01 & 3.908357E--01 & 4.291667E--01  & 1.304116E--01  &  19 & $+$ \\ \hline
+	\end{tabular}
+	\caption{Results of 31 independent runs of ECA, CHDE, jSO, CMA-ES and CGSA on the dynamic optimization problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}).}
+	\label{tab:res2}
+\end{table}
+\begin{tabular}{clcccccc}
+\end{tabular}%
+% 
+
+Statistical results obtained from 31 independent runs by ECA, CHDE, jSO,
+CMA-ES and CGSA are presented in Table \ref{tab:res2}. jSO and DE do not present
+significant difference against ECA, based on the 95\%-confidence Wilcoxon test.
+Besides, CMA-ES and CGSA show a low performance. Hence, ECA obtained good results
+for this kind of problems. Besides, Algorithm \ref{algoritmoEca} requires less
+evaluations of objective function to get good results compared with competitive
+state-art evolutionary algorithms.\\
 
 
 % subsection results (end)
 
-\begin{table}[!ht]
-	\centering
-	\begin{tabular}{ccccccc}
-		\hline
-		& {\bf Evals.} & {\bf Best} & {\bf Median} & {\bf Mean} & {\bf Worst} & {\bf Std.} \\ \hline
-		ECA & 10000 & 2.055877E--01 & 2.340816E--01 & 2.292241E--01 & 2.345938E--01 & 9.315045E--03 \\ \hline
-		CHDE & 20000 & 2.120037E--01 & 2.232873E--01 & 2.206308E--01 & 2.340816E--01 & 8.093537E--03 \\ \hline
-	\end{tabular}
-	\caption{Results of 31 independent runs of ECA on the dynamic optimization
-	problem (\ref{eqn:minF}) -- (\ref{eqn:pLims}). Here, the feasibility ratio was 100\%.}
-	\label{tab:res2}
-\end{table}
-% 
 % 
 % 
 % 
@@ -996,16 +1032,16 @@ to solve the system of differential equations (\ref{eqn:mysystem}).
 \label{sec:conclusion_and_future_work}
 
 Physics-inspired Metaheuristic was presented and used to solve engineering 
-problems with promising results. ECA was capable to solve those problems using
-less objective functions evaluations with equivalent results given by a 
-competitive evolutionary algorithm.\\
+problems with promising results. ECA was capable to solve those problems with fast
+convergence with good results and FR = 100\%. Also, this approach outperformed jSO,
+CMA-ES and CGSA most of time.\\
 
 Make a study to calibrate the parameters of Algorithm \ref{algoritmoEca} and study
 others constraint handling methods to improve results. That are part of future work.\\
 
 \noindent
-The source code can be downloaded from
-\verb|https://github.com/jmejia8/eca-four-bar-mechanisms|
+The source code can be downloaded from:\\
+\verb|https://github.com/jmejia8/metaheuristics-vs-problems|
 
 % section conclusion_and_future_work (end)
 
